@@ -14,14 +14,15 @@ export const REGISTER_DATA = {
       { name: "name", label: "Full Name", placeholder: "John Doe", type: "text" },
       { name: "email", label: "Email Address", placeholder: "name@company.com", type: "email" },
       { name: "password", label: "Password", placeholder: "••••••••", type: "password" },
+      { name: "dob", label: "Date of Birth", placeholder: "Pick a date", type: "date" },
     ],
     submitButton: "Create Account",
   },
   social: {
     divider: "Or sign up with",
     providers: [
-      { id: "facebook", name: "Facebook" },
-      { id: "google", name: "Google" },
+      { id: "facebook", name: "Facebook" as const },
+      { id: "google", name: "Google" as const },
     ],
   },
   footer: {
