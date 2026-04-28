@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { signIn } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Loader2, ArrowRight } from "lucide-react";
@@ -38,8 +39,8 @@ export default function LoginPage() {
   useGSAP(() => {
     gsap.fromTo(
       formRef.current,
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", delay: 0.1 }
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 1, ease: "expo.out", delay: 0.2 }
     );
   }, []);
 
@@ -57,95 +58,98 @@ export default function LoginPage() {
       });
 
       if (error) {
-        toast.error(error.message || "Authentication failed.");
+        toast.error(error.message || "Invalid credentials.");
         setIsLoading(false);
         return;
       }
 
-      toast.success("Identity verified. Redirecting...");
+      toast.success("Security clearance granted. Entering workspace...");
       setTimeout(() => router.push("/dashboard"), 800);
     } catch (err: any) {
-      toast.error("A network error occurred.");
+      toast.error("System error. Connection refused.");
       setIsLoading(false);
     }
   }
 
   return (
-    <div className="min-h-screen w-full flex bg-[#fafafa] text-zinc-900 font-sans selection:bg-zinc-900 selection:text-white">
+    <div className="min-h-screen w-full flex bg-white text-zinc-900 font-sans selection:bg-black selection:text-white">
       <AuthSidebar 
         branding={LOGIN_DATA.branding} 
         links={LOGIN_DATA.footer.links} 
       />
 
-      <div className="w-full lg:w-[58%] flex items-center justify-center p-8 relative">
+      <div className="w-full lg:w-[58%] flex items-center justify-center p-12 relative bg-white">
         <div ref={formRef} className="w-full max-w-[340px] space-y-12 opacity-0">
           
-          <div className="space-y-3">
-            <h2 className="text-3xl font-semibold tracking-tight">{LOGIN_DATA.form.title}</h2>
-            <p className="text-zinc-500 text-sm">{LOGIN_DATA.form.subtitle}</p>
+          <div className="space-y-4">
+            <h2 className="text-5xl font-semibold tracking-tight text-black">{LOGIN_DATA.form.title}</h2>
+            <p className="text-zinc-500 text-lg font-light leading-relaxed">{LOGIN_DATA.form.subtitle}</p>
           </div>
 
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <div className="space-y-4">
-                {LOGIN_DATA.form.fields.map((field) => (
-                  <FormInput
-                    key={field.name}
-                    control={form.control}
-                    name={field.name}
-                    label={field.label}
-                    placeholder={field.placeholder}
-                    type={field.type}
-                    rightElement={field.hasRecover && (
-                      <a href="#" className="text-[10px] font-bold text-zinc-400 hover:text-zinc-900 uppercase tracking-widest transition-colors">
-                        {LOGIN_DATA.form.fields.find(f => f.hasRecover)?.name === field.name && "Recover"}
-                      </a>
-                    )}
-                  />
-                ))}
-              </div>
+          <div className="pt-2">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <div className="space-y-5">
+                  {LOGIN_DATA.form.fields.map((field) => (
+                    <FormInput
+                      key={field.name}
+                      control={form.control}
+                      name={field.name}
+                      label={field.label}
+                      placeholder={field.placeholder}
+                      type={field.type}
+                      rightElement={field.hasRecover && (
+                        <Link href="/recover" className="text-[10px] font-bold text-zinc-400 hover:text-black uppercase tracking-[0.2em] transition-all">
+                          Recover
+                        </Link>
+                      )}
+                    />
+                  ))}
+                </div>
 
-              <Button
-                type="submit"
-                className="w-full h-11 bg-zinc-900 text-white hover:bg-zinc-800 transition-all rounded-md font-bold text-[13px] uppercase tracking-widest mt-4 shadow-md shadow-zinc-200"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <div className="flex items-center justify-center gap-2">
-                    {LOGIN_DATA.form.submitButton}
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </div>
-                )}
-              </Button>
-            </form>
-          </Form>
+                <Button
+                  type="submit"
+                  className="w-full h-14 bg-black text-white hover:bg-zinc-800 transition-all rounded-2xl font-bold text-[14px] uppercase tracking-[0.2em] shadow-xl shadow-black/10 active:scale-[0.98]"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                  ) : (
+                    <div className="flex items-center justify-center gap-3">
+                      {LOGIN_DATA.form.submitButton}
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
+                  )}
+                </Button>
+              </form>
+            </Form>
+          </div>
 
           <div className="relative pt-2">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-zinc-100"></div>
             </div>
-            <div className="relative flex justify-center text-[9px] uppercase tracking-[0.25em] font-bold">
-              <span className="bg-[#fafafa] px-4 text-zinc-300">{LOGIN_DATA.social.divider}</span>
+            <div className="relative flex justify-center text-[10px] uppercase tracking-[0.3em] font-bold">
+              <span className="bg-white px-6 text-zinc-300">{LOGIN_DATA.social.divider}</span>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-4">
             {LOGIN_DATA.social.providers.map((p) => (
               <SocialButton 
                 key={p.id} 
-                provider={p.id} 
+                provider={p.id as "facebook" | "google"} 
                 label={p.name} 
+                className="h-14 rounded-2xl border-zinc-200/60 shadow-sm"
               />
             ))}
           </div>
 
-          <p className="text-center text-[11px] font-bold text-zinc-400 uppercase tracking-widest mt-10">
+          <p className="text-center text-[11px] font-bold text-zinc-400 uppercase tracking-[0.25em] mt-12">
             {LOGIN_DATA.footer.noAccount}{" "}
-            <a href="/register" className="text-zinc-900 hover:underline decoration-1 underline-offset-4">
+            <Link href="/register" className="text-black hover:underline decoration-1 underline-offset-8 transition-all">
               {LOGIN_DATA.footer.joinAction}
-            </a>
+            </Link>
           </p>
         </div>
       </div>

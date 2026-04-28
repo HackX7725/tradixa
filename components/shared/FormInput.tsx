@@ -37,14 +37,16 @@ export function FormInput({
   type = "text",
   rightElement,
 }: FormInputProps) {
+  const baseInputClasses = "h-12 bg-white border-zinc-200 text-zinc-900 focus-visible:border-black focus-visible:ring-4 focus-visible:ring-black/5 transition-all rounded-xl px-4 shadow-sm text-[15px] placeholder:text-zinc-300";
+
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="space-y-1.5 flex flex-col">
-          <div className="flex items-center justify-between">
-            <FormLabel className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest">
+        <FormItem className="space-y-2 flex flex-col">
+          <div className="flex items-center justify-between px-1">
+            <FormLabel className="text-zinc-400 text-[10px] font-bold uppercase tracking-[0.2em]">
               {label}
             </FormLabel>
             {rightElement}
@@ -57,15 +59,16 @@ export function FormInput({
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "h-11 w-full justify-start text-left font-normal border-zinc-300 rounded-md px-3.5 shadow-none text-[15px]",
+                      baseInputClasses,
+                      "justify-start text-left font-normal",
                       !field.value && "text-zinc-400"
                     )}
                   >
-                    <CalendarIcon className="mr-2 h-4 w-4 text-zinc-400" />
+                    <CalendarIcon className="mr-3 h-4 w-4 text-zinc-400" />
                     {field.value ? format(field.value, "PPP") : <span>{placeholder}</span>}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0 border-none shadow-2xl rounded-2xl overflow-hidden" align="start">
                   <Calendar
                     mode="single"
                     selected={field.value}
@@ -74,6 +77,7 @@ export function FormInput({
                       date > new Date() || date < new Date("1900-01-01")
                     }
                     initialFocus
+                    className="bg-white"
                   />
                 </PopoverContent>
               </Popover>
@@ -81,12 +85,12 @@ export function FormInput({
               <Input
                 placeholder={placeholder}
                 type={type}
-                className="h-11 bg-white border-zinc-300 text-zinc-900 focus-visible:border-zinc-900 focus-visible:ring-0 transition-all rounded-md px-3.5 shadow-none text-[15px]"
+                className={baseInputClasses}
                 {...field}
               />
             )}
           </FormControl>
-          <FormMessage className="text-red-500 text-[11px] font-medium" />
+          <FormMessage className="text-red-500 text-[11px] font-medium px-1" />
         </FormItem>
       )}
     />
