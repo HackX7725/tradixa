@@ -10,16 +10,23 @@ const serviceAccount = {
 
 const createFirebaseAdminApp = () => {
   if (getApps().length === 0) {
-    // Only initialize if we have the credentials, to avoid crashing during build
     if (serviceAccount.projectId && serviceAccount.clientEmail && serviceAccount.privateKey) {
+      console.log("Initializing Firebase Admin for Auth...");
       return initializeApp({
         credential: cert(serviceAccount as any),
       });
+    } else {
+      console.warn("Firebase Admin credentials missing. Auth database will be unavailable.");
     }
   }
   return getApp();
 };
 
 export const adminApp = createFirebaseAdminApp();
-export const adminDb = getApps().length > 0 ? getFirestore(adminApp) : null;
-export const adminAuth = getApps().length > 0 ? getAuth(adminApp) : null;
+export const adminDb = getFirestore(adminApp);
+try {
+  adminDb.settings({ ignoreUndefinedProperties: true });
+} catch (e) {
+  // Settings already applied or Firestore already in use
+}
+export const adminAuth = getAuth(adminApp);

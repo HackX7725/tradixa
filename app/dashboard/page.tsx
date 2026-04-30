@@ -1,17 +1,21 @@
 "use client";
 
-import { useSession } from "@/lib/auth-client";
+import { useSession, signOut } from "@/lib/auth-client";
 import { Navbar } from "@/components/landing/Navbar";
 import { PremiumFooter } from "@/components/landing/Footer";
 import { useListings } from "@/hooks/use-listings";
-import { Loader2, Plus, Settings, Package, Heart, CreditCard, ChevronRight, LogOut } from "lucide-react";
+import { Loader2, Plus, Settings, Package, Heart, CreditCard, ChevronRight, LogOut, Trash2 } from "lucide-react";
+import { deleteListing } from "@/lib/actions";
+import { toast } from "sonner";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
+  const router = useRouter();
   const { data: session, isPending } = useSession();
-  const { listings, loading: listingsLoading } = useListings(); // Ideally filter by sellerId in production
+  const { listings, loading: listingsLoading } = useListings(undefined, undefined, session?.user?.id);
 
   if (isPending) {
     return (
@@ -23,8 +27,7 @@ export default function DashboardPage() {
 
   if (!session) return null;
 
-  // Mock filtering for user listings (In production, use where("sellerId", "==", session.user.id))
-  const userListings = listings.filter(l => l.sellerId === session.user.id || l.sellerId === "system_default").slice(0, 3);
+  const userListings = listings;
 
   return (
     <main className="min-h-screen bg-[#F8F9FA]">
@@ -64,6 +67,16 @@ export default function DashboardPage() {
                    {item.label}
                  </button>
                ))}
+               <button 
+                  onClick={async () => {
+                    await signOut();
+                    router.push("/login");
+                  }}
+                  className="w-full flex items-center gap-4 px-6 py-4 rounded-2xl text-[11px] font-bold uppercase tracking-widest text-zinc-400 hover:bg-red-50 hover:text-red-500 transition-all mt-6"
+                >
+                   <LogOut className="w-4 h-4" />
+                   Sign Out
+                </button>
             </div>
           </div>
 
@@ -102,9 +115,26 @@ export default function DashboardPage() {
                       <div className="text-right space-y-2">
                          <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Current Value</p>
                          <p className="text-xl font-bold">{item.price}</p>
-                         <button className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-zinc-300 group-hover:text-black transition-all ml-auto pt-2">
-                            Manage <ChevronRight className="w-4 h-4" />
-                         </button>
+                          <div className="flex items-center gap-4 ml-auto pt-2">
+                             <button 
+                               onClick={async () => {
+                                 if (confirm("Are you sure you want to remove this institutional asset?")) {
+                                   try {
+                                     await deleteListing(item.id);
+                                     toast.success("Asset removed from portfolio.");
+                                   } catch (e) {
+                                     toast.error("Failed to remove asset.");
+                                   }
+                                 }
+                               }}
+                               className="w-10 h-10 rounded-full flex items-center justify-center text-zinc-300 hover:bg-red-50 hover:text-red-500 transition-all"
+                             >
+                                <Trash2 className="w-4 h-4" />
+                             </button>
+                             <button className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-zinc-300 group-hover:text-black transition-all">
+                                Manage <ChevronRight className="w-4 h-4" />
+                             </button>
+                          </div>
                       </div>
                    </div>
                  ))

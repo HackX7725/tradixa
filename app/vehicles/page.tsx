@@ -6,15 +6,18 @@ import { PremiumFooter } from "@/components/landing/Footer";
 import { Search, Fuel, Gauge, ShieldCheck, ChevronRight, Zap, ArrowRight, MapPin } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useRef, useEffect } from "react";
-import Image from "next/image";
 import { useListings } from "@/hooks/use-listings";
+import { useDebounce } from "@/hooks/use-debounce";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
+import { useRef, useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function VehiclesPage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { listings, loading, error } = useListings("Vehicles");
+  const [searchInput, setSearchInput] = useState("");
+  const debouncedSearch = useDebounce(searchInput, 500);
+  const { listings, loading, error } = useListings("Vehicles", debouncedSearch);
 
   useEffect(() => {
     if (error) {
@@ -68,12 +71,24 @@ export default function VehiclesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-20">
             <h2 className="text-4xl font-bold tracking-tight">Active Inventory</h2>
-            <div className="flex gap-6">
-              {["All", "Exotic", "Luxury", "SUVs", "Electric"].map(cat => (
-                <button key={cat} className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 hover:text-white transition-colors">
-                  {cat}
-                </button>
-              ))}
+            <div className="flex items-center gap-10">
+              <div className="relative w-64 group">
+                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within:text-white transition-colors" />
+                 <input 
+                   type="text"
+                   value={searchInput}
+                   onChange={(e) => setSearchInput(e.target.value)}
+                   placeholder="Search inventory..."
+                   className="w-full bg-zinc-900 border border-zinc-800 rounded-xl py-3 pl-12 pr-4 text-xs outline-none focus:border-zinc-500 transition-all text-white"
+                 />
+              </div>
+              <div className="flex gap-6">
+                {["All", "Exotic", "Luxury", "SUVs", "Electric"].map(cat => (
+                  <button key={cat} className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 hover:text-white transition-colors">
+                    {cat}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 

@@ -1,5 +1,5 @@
 import { db, storage } from "./firebase-client";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, doc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Listing } from "./types";
 
@@ -28,6 +28,15 @@ export async function createListing(data: Partial<Listing>, images: File[]) {
     return { id: docRef.id };
   } catch (error) {
     console.error("Error creating listing:", error);
+    throw error;
+  }
+}
+export async function deleteListing(id: string) {
+  try {
+    await deleteDoc(doc(db, "listings", id));
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting listing:", error);
     throw error;
   }
 }

@@ -20,4 +20,9 @@ export const auth = betterAuth({
     },
   },
   */
+  // trustHost is required in some environments to allow the session cookie to be set correctly
+  advanced: {
+    trustHost: true,
+  },
+  debug: true,
 });

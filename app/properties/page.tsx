@@ -6,15 +6,18 @@ import { PremiumFooter } from "@/components/landing/Footer";
 import { Search, MapPin, Maximize2, BedDouble, Bath, ArrowUpRight, Tag, ArrowRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useRef, useEffect } from "react";
-import Image from "next/image";
 import { useListings } from "@/hooks/use-listings";
+import { useDebounce } from "@/hooks/use-debounce";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
+import { useRef, useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function PropertiesPage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { listings, loading, error } = useListings("Property");
+  const [searchInput, setSearchInput] = useState("");
+  const debouncedSearch = useDebounce(searchInput, 500);
+  const { listings, loading, error } = useListings("Property", debouncedSearch);
 
   useEffect(() => {
     if (error) {
@@ -90,6 +93,8 @@ export default function PropertiesPage() {
               <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
               <input 
                 type="text" 
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
                 placeholder="Find a city or project..."
                 className="w-full bg-white border border-zinc-100 rounded-xl py-4 pl-14 pr-6 text-sm outline-none focus:border-black transition-all"
               />

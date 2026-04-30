@@ -10,6 +10,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Loader2, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
+import { signUp } from "@/lib/auth-client";
 
 // Shared Components
 import { AuthSidebar } from "@/components/shared/AuthSidebar";
@@ -29,9 +30,6 @@ const registerSchema = z.object({
   password: z
     .string()
     .min(6, { message: "Password must be at least 6 characters." }),
-  dob: z.date({
-    required_error: "A date of birth is required.",
-  }),
 });
 
 export default function RegisterPage() {
@@ -55,6 +53,19 @@ export default function RegisterPage() {
   async function onSubmit(values: z.infer<typeof registerSchema>) {
     setIsLoading(true);
     try {
+      const { error } = await signUp.email({
+        email: values.email,
+        password: values.password,
+        name: values.name,
+        image: "", // Explicitly set to empty string to avoid Firestore undefined error
+      });
+
+      if (error) {
+        toast.error(error.message || "Registration failed.");
+        setIsLoading(false);
+        return;
+      }
+
       toast.success("Identity profile created. Redirecting to access...");
       setTimeout(() => router.push("/login"), 1500);
     } catch (err: any) {

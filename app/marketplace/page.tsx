@@ -12,12 +12,15 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useListings } from "@/hooks/use-listings";
+import { useDebounce } from "@/hooks/use-debounce";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function MarketplacePage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const { listings, loading, error } = useListings(selectedCategory);
+  const [searchInput, setSearchInput] = useState("");
+  const debouncedSearch = useDebounce(searchInput, 500);
+  const { listings, loading, error } = useListings(selectedCategory, debouncedSearch);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -62,6 +65,8 @@ export default function MarketplacePage() {
                 <Search className="w-5 h-5 text-zinc-400 group-focus-within:text-black transition-colors" />
                 <input
                   type="text"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
                   placeholder="Search by asset name, location, or SKU..."
                   className="w-full bg-transparent border-none outline-none text-sm font-medium py-4 placeholder:text-zinc-400"
                 />

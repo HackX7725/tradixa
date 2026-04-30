@@ -14,6 +14,8 @@ export default async function authMiddleware(request: NextRequest) {
     }
   );
 
+  console.log(`[Middleware] Path: ${request.nextUrl.pathname} | Session: ${session ? "Active" : "None"}`);
+
   if (!session) {
     if (request.nextUrl.pathname.startsWith("/sell") || request.nextUrl.pathname.startsWith("/dashboard")) {
       return NextResponse.redirect(new URL("/login", request.url));
