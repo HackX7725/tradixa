@@ -1,6 +1,6 @@
 "use server";
 
-import { adminDb } from "./firebase";
+import { adminDb, adminApp } from "./firebase";
 import { getStorage } from "firebase-admin/storage";
 import { Listing } from "./types";
 
@@ -14,23 +14,30 @@ export async function createListing(formData: FormData) {
     const sellerId = formData.get("sellerId") as string;
     const imageFiles = formData.getAll("images") as File[];
 
-    const bucket = getStorage().bucket(process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET);
+    const bucket = getStorage(adminApp).bucket("gs://tradixa-f1af4.appspot.com");
+
+    // DIAGNOSTIC: List all available buckets via the storage client
+    try {
+      const [buckets] = await bucket.storage.getBuckets();
+      console.log("CRITICAL DIAGNOSTIC - True Bucket Names:", buckets.map((b: any) => b.name));
+    } catch (e) { }
+
     const imageUrls: string[] = [];
 
     // 1. Upload Images to Firebase Storage (Server-side)
     for (const file of imageFiles) {
       if (file.size === 0) continue;
-      
+
       const buffer = Buffer.from(await file.arrayBuffer());
       const fileName = `listings/${Date.now()}-${file.name}`;
       const blob = bucket.file(fileName);
-      
+
       await blob.save(buffer, {
         contentType: file.type,
         public: true,
       });
 
-      // Construct public URL (this works if the bucket is public or has public access enabled)
+      // Construct public URL
       const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
       imageUrls.push(publicUrl);
     }
