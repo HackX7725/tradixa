@@ -67,12 +67,23 @@ export default function SellPage() {
       return;
     }
 
+    console.log("Publishing listing...", { session, filesCount: files.length, formData });
     setLoading(true);
     try {
-      await createListing({
-        ...formData,
-        sellerId: session.user.id,
-      }, files);
+      console.log("Calling createListing server action...");
+      const formDataToSend = new FormData();
+      formDataToSend.append("title", formData.title);
+      formDataToSend.append("category", formData.category);
+      formDataToSend.append("description", formData.description);
+      formDataToSend.append("price", formData.price);
+      formDataToSend.append("location", formData.location);
+      formDataToSend.append("sellerId", session.user.id);
+      
+      files.forEach(file => {
+        formDataToSend.append("images", file);
+      });
+
+      await createListing(formDataToSend);
       
       toast.success("Elite asset listed successfully!");
       router.push("/marketplace");

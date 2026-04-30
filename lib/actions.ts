@@ -1,28 +1,52 @@
-import { db, storage } from "./firebase-client";
-import { collection, addDoc, serverTimestamp, doc, deleteDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+"use server";
+
+import { adminDb } from "./firebase";
+import { getStorage } from "firebase-admin/storage";
 import { Listing } from "./types";
 
-export async function createListing(data: Partial<Listing>, images: File[]) {
+export async function createListing(formData: FormData) {
   try {
+    const title = formData.get("title") as string;
+    const category = formData.get("category") as string;
+    const description = formData.get("description") as string;
+    const price = formData.get("price") as string;
+    const location = formData.get("location") as string;
+    const sellerId = formData.get("sellerId") as string;
+    const imageFiles = formData.getAll("images") as File[];
+
+    const bucket = getStorage().bucket(process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET);
     const imageUrls: string[] = [];
 
-    // 1. Upload Images
-    for (const image of images) {
-      const storageRef = ref(storage, `listings/${Date.now()}-${image.name}`);
-      const snapshot = await uploadBytes(storageRef, image);
-      const url = await getDownloadURL(snapshot.ref);
-      imageUrls.push(url);
+    // 1. Upload Images to Firebase Storage (Server-side)
+    for (const file of imageFiles) {
+      if (file.size === 0) continue;
+      
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const fileName = `listings/${Date.now()}-${file.name}`;
+      const blob = bucket.file(fileName);
+      
+      await blob.save(buffer, {
+        contentType: file.type,
+        public: true,
+      });
+
+      // Construct public URL (this works if the bucket is public or has public access enabled)
+      const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+      imageUrls.push(publicUrl);
     }
 
-    // 2. Create Firestore Doc
-    const docRef = await addDoc(collection(db, "listings"), {
-      ...data,
-      image: imageUrls[0] || "", // Main image
+    // 2. Create Firestore Doc using Admin SDK
+    const docRef = await adminDb!.collection("listings").add({
+      title,
+      category,
+      description,
+      price,
+      location,
+      sellerId,
+      image: imageUrls[0] || "",
       images: imageUrls,
       status: "active",
       createdAt: new Date().toISOString(),
-      serverTimestamp: serverTimestamp(),
     });
 
     return { id: docRef.id };
@@ -31,9 +55,10 @@ export async function createListing(data: Partial<Listing>, images: File[]) {
     throw error;
   }
 }
+
 export async function deleteListing(id: string) {
   try {
-    await deleteDoc(doc(db, "listings", id));
+    await adminDb!.collection("listings").doc(id).delete();
     return { success: true };
   } catch (error) {
     console.error("Error deleting listing:", error);

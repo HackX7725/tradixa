@@ -50,8 +50,10 @@ export default function LoginPage() {
   });
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
+    console.log("Attempting login...", values);
     setIsLoading(true);
     try {
+      console.log("Calling signIn.email...");
       const { error } = await signIn.email({
         email: values.email,
         password: values.password,

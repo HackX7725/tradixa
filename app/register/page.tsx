@@ -51,8 +51,10 @@ export default function RegisterPage() {
   });
 
   async function onSubmit(values: z.infer<typeof registerSchema>) {
+    console.log("Attempting registration...", values);
     setIsLoading(true);
     try {
+      console.log("Calling signUp.email...");
       const { error } = await signUp.email({
         email: values.email,
         password: values.password,

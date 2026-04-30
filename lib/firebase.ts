@@ -14,6 +14,7 @@ const createFirebaseAdminApp = () => {
       console.log("Initializing Firebase Admin for Auth...");
       return initializeApp({
         credential: cert(serviceAccount as any),
+        storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
       });
     } else {
       console.warn("Firebase Admin credentials missing. Auth database will be unavailable.");
