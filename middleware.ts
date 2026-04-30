@@ -1,33 +1,32 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { betterFetch } from "@better-fetch/fetch";
+import { NextResponse, type NextRequest } from "next/server";
+import type { Session } from "better-auth/types";
 
-export function middleware(request: NextRequest) {
-  // Better auth uses `better-auth.session_token` cookie by default.
-  // Note: For a true secure validation, you'd verify the session on the server.
-  // Edge middleware cannot use Node.js `firebase-admin` directly, so we rely on the cookie presence
-  // or a quick fetch to the session endpoint if needed. For now, cookie check:
-  
-  const sessionCookie = request.cookies.get("better-auth.session_token");
+export default async function authMiddleware(request: NextRequest) {
+  const { data: session } = await betterFetch<Session>(
+    "/api/auth/get-session",
+    {
+      baseURL: request.nextUrl.origin,
+      headers: {
+        //get the cookie from the request
+        cookie: request.headers.get("cookie") || "",
+      },
+    }
+  );
 
-  // Define protected routes here
-  const isProtectedRoute = request.nextUrl.pathname.startsWith("/dashboard") || request.nextUrl.pathname.startsWith("/profile");
-
-  if (isProtectedRoute && !sessionCookie) {
-    return NextResponse.redirect(new URL("/login", request.url));
+  if (!session) {
+    if (request.nextUrl.pathname.startsWith("/sell") || request.nextUrl.pathname.startsWith("/dashboard")) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+  } else {
+    if (request.nextUrl.pathname.startsWith("/login") || request.nextUrl.pathname.startsWith("/register")) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
-     */
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
-  ],
+  matcher: ["/sell/:path*", "/dashboard/:path*", "/login", "/register"],
 };

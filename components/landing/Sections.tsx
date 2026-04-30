@@ -8,6 +8,7 @@ import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 import { Shield, Lock, Eye, ArrowRight, ArrowUpRight, MapPin, Heart, ChevronDown, Camera } from "lucide-react";
+import Link from "next/link";
 
 export function SellSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -44,9 +45,11 @@ export function SellSection() {
             <h2 className="text-6xl font-semibold tracking-tight leading-[1.1] text-white">{LANDING_DATA.sell.title}</h2>
             <p className="text-xl text-zinc-400 font-light leading-relaxed max-w-md">{LANDING_DATA.sell.subtitle}</p>
           </div>
-          <button className="h-16 px-12 bg-white text-black rounded-full text-[13px] font-bold uppercase tracking-[0.2em] hover:bg-zinc-200 transition-all shadow-2xl active:scale-[0.98]">
-            {LANDING_DATA.sell.button}
-          </button>
+          <Link href="/sell">
+            <button className="h-16 px-12 bg-white text-black rounded-full text-[13px] font-bold uppercase tracking-[0.2em] hover:bg-zinc-200 transition-all shadow-2xl active:scale-[0.98]">
+              {LANDING_DATA.sell.button}
+            </button>
+          </Link>
         </div>
         <div className="sell-image relative aspect-[16/10] rounded-[3rem] overflow-hidden shadow-2xl">
           <img src={LANDING_DATA.sell.image} className="w-full h-full object-cover" alt="Sell" />
@@ -317,9 +320,11 @@ export function FinalCTA() {
         <p className="text-xl text-zinc-500 font-light max-w-xl mx-auto leading-relaxed">
           {LANDING_DATA.cta.subtitle}
         </p>
-        <button className="h-16 px-12 bg-black text-white rounded-full text-[13px] font-bold uppercase tracking-[0.2em] hover:bg-zinc-800 transition-all shadow-2xl active:scale-[0.98]">
-          {LANDING_DATA.cta.button}
-        </button>
+        <Link href="/sell">
+          <button className="h-16 px-12 bg-black text-white rounded-full text-[13px] font-bold uppercase tracking-[0.2em] hover:bg-zinc-800 transition-all shadow-2xl active:scale-[0.98]">
+            {LANDING_DATA.cta.button}
+          </button>
+        </Link>
       </div>
     </section>
   );
