@@ -72,8 +72,8 @@ export function FeaturedSpotlight() {
 
     tl.fromTo(
       ".spotlight-mask",
-      { width: "0%" },
-      { width: "100%", duration: 1.5, ease: "expo.inOut" }
+      { xPercent: 0 },
+      { xPercent: 100, duration: 1.5, ease: "expo.inOut" }
     )
     .fromTo(
       ".spotlight-content",
@@ -90,14 +90,14 @@ export function FeaturedSpotlight() {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black text-[9px] font-bold uppercase tracking-widest text-white">
             {LANDING_DATA.featured.badge}
           </div>
-          <h2 className="text-6xl font-semibold tracking-tight leading-[1.05]">
+          <h2 className="text-6xl font-semibold tracking-tight leading-[1.05] text-black">
             {LANDING_DATA.featured.title}
           </h2>
           <p className="text-xl text-zinc-500 font-light leading-relaxed">
             {LANDING_DATA.featured.subtitle}
           </p>
           <button className="flex items-center gap-3 group">
-            <span className="text-[12px] font-bold uppercase tracking-widest border-b border-black pb-1">
+            <span className="text-[12px] font-bold uppercase tracking-widest border-b border-zinc-200 group-hover:border-black pb-1 transition-all duration-300">
               {LANDING_DATA.featured.button}
             </span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -138,7 +138,7 @@ export function InsightsSection() {
     <section ref={sectionRef} className="max-w-7xl mx-auto px-10 py-32 bg-[#fafafa] rounded-[4rem] mx-6 my-20">
       <div className="flex items-center justify-between mb-20">
         <div className="space-y-4">
-          <h2 className="text-5xl font-semibold tracking-tight">{LANDING_DATA.insights.title}</h2>
+          <h2 className="text-5xl font-semibold tracking-tight text-black">{LANDING_DATA.insights.title}</h2>
           <p className="text-zinc-500 text-lg font-light">Global analysis and strategic updates.</p>
         </div>
         <button className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-zinc-400 hover:text-black transition-all">
@@ -153,7 +153,7 @@ export function InsightsSection() {
             </div>
             <div className="space-y-3 px-2">
               <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">{article.date}</span>
-              <h3 className="text-2xl font-semibold tracking-tight leading-tight group-hover:text-zinc-500 transition-colors">{article.title}</h3>
+              <h3 className="text-2xl font-semibold tracking-tight leading-tight text-black group-hover:text-zinc-500 transition-colors">{article.title}</h3>
             </div>
           </div>
         ))}
@@ -233,12 +233,12 @@ export function FAQSection() {
 
   return (
     <section ref={sectionRef} className="max-w-3xl mx-auto px-10 py-32 space-y-20">
-      <h2 className="text-5xl font-semibold tracking-tight text-center">{LANDING_DATA.faq.title}</h2>
+      <h2 className="text-5xl font-semibold tracking-tight text-center text-black">{LANDING_DATA.faq.title}</h2>
       <div className="space-y-6">
         {LANDING_DATA.faq.items.map((item, i) => (
-          <div key={i} className="faq-item group border-b border-zinc-100 pb-8 cursor-pointer opacity-0">
+          <div key={i} className="faq-item group border-b border-zinc-100 pb-8 cursor-pointer opacity-0 hover:translate-x-2 transition-all duration-300">
             <div className="flex items-center justify-between gap-8">
-              <h3 className="text-xl font-semibold tracking-tight group-hover:text-zinc-500 transition-colors">{item.q}</h3>
+              <h3 className="text-xl font-semibold tracking-tight text-black group-hover:text-zinc-500 transition-colors">{item.q}</h3>
               <ChevronDown className="w-5 h-5 text-zinc-300 group-hover:text-black transition-all group-hover:rotate-180" />
             </div>
             <p className="mt-4 text-zinc-500 font-light leading-relaxed max-w-2xl overflow-hidden max-h-0 group-hover:max-h-40 transition-all duration-500">
@@ -259,7 +259,7 @@ export function PartnerLogos() {
       ".partner-logo",
       { opacity: 0, scale: 0.8 },
       { 
-        opacity: 0.3, 
+        opacity: 1, 
         scale: 1, 
         duration: 1, 
         stagger: 0.1, 
@@ -275,12 +275,12 @@ export function PartnerLogos() {
   return (
     <section ref={sectionRef} className="py-24 border-b border-zinc-100 overflow-hidden">
       <div className="max-w-7xl mx-auto px-10">
-        <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-[0.4em] mb-12 block text-center">
+        <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.4em] mb-12 block text-center">
           Institutional Partners
         </span>
         <div className="flex flex-wrap items-center justify-center gap-20">
           {LANDING_DATA.partners.map((p) => (
-            <span key={p} className="partner-logo text-2xl font-bold tracking-tighter grayscale hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer opacity-0">
+            <span key={p} className="partner-logo text-2xl font-bold tracking-tighter text-zinc-400 hover:text-black hover:scale-105 transition-all duration-300 cursor-pointer opacity-0">
               {p}
             </span>
           ))}
@@ -314,7 +314,7 @@ export function FinalCTA() {
   return (
     <section ref={sectionRef} className="max-w-7xl mx-auto px-10 py-40 flex flex-col items-center text-center space-y-10">
       <div className="cta-content space-y-10 opacity-0">
-        <h2 className="text-7xl font-semibold tracking-tight leading-[0.95]">
+        <h2 className="text-7xl font-semibold tracking-tight leading-[0.95] text-black">
           {LANDING_DATA.cta.title}
         </h2>
         <p className="text-xl text-zinc-500 font-light max-w-xl mx-auto leading-relaxed">

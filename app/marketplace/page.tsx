@@ -47,7 +47,7 @@ export default function MarketplacePage() {
   }, { scope: containerRef });
 
   return (
-    <main ref={containerRef} className="min-h-screen bg-[#F8F9FA] selection:bg-black selection:text-white">
+    <main ref={containerRef} className="min-h-screen bg-[#F8F9FA] text-zinc-900 selection:bg-black selection:text-white">
       <Navbar />
       
       {/* Search & Categories Hero */}

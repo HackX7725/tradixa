@@ -96,7 +96,7 @@ export default function SellPage() {
   };
 
   return (
-    <main ref={containerRef} className="min-h-screen bg-[#F8F9FA]">
+    <main ref={containerRef} className="min-h-screen bg-[#F8F9FA] text-zinc-900">
       <Navbar />
       
       <section className="pt-40 pb-32 px-10">

@@ -84,7 +84,7 @@ export function ListingGrid() {
   return (
     <section ref={gridRef} className="max-w-7xl mx-auto px-10 py-24 perspective-2000">
       <div className="flex items-center justify-between mb-12">
-        <h2 className="text-3xl font-semibold tracking-tight">Pakistan's Elite Listings</h2>
+        <h2 className="text-3xl font-semibold tracking-tight text-black">Pakistan's Elite Listings</h2>
         <Link href="/marketplace" className="text-[11px] font-bold text-zinc-400 hover:text-black uppercase tracking-widest transition-all">
           View All Marketplace
         </Link>

@@ -71,7 +71,7 @@ export default function ListingDetailPage() {
   }
 
   return (
-    <main ref={containerRef} className="min-h-screen bg-[#FBFBFB] selection:bg-black selection:text-white">
+    <main ref={containerRef} className="min-h-screen bg-[#FBFBFB] text-zinc-900 selection:bg-black selection:text-white">
       <Navbar />
 
       <section className="pt-32 pb-24 px-10">

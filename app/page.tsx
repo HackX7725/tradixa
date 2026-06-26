@@ -48,7 +48,7 @@ export default function LandingPage() {
       <MouseFollower />
       {!isLoaded && <Splash onComplete={() => setIsLoaded(true)} />}
       
-      <main className={`min-h-screen bg-white font-sans selection:bg-black selection:text-white overflow-x-hidden transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+      <main className={`min-h-screen bg-white text-zinc-900 font-sans selection:bg-black selection:text-white overflow-x-hidden transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
         <Navbar />
         
         <Hero />
