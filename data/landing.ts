@@ -5,7 +5,8 @@ export const LANDING_DATA = {
       { label: "Marketplace", href: "/marketplace" },
       { label: "Properties", href: "/properties" },
       { label: "Vehicles", href: "/vehicles" },
-      { label: "Insights", href: "/insights" },
+      { label: "Electronics", href: "/electronics" },
+      { label: "Mobiles", href: "/mobiles" },
     ],
     auth: {
       login: "Sign In",
@@ -37,9 +38,9 @@ export const LANDING_DATA = {
     { id: "vehicles", label: "Vehicles", icon: "Car" },
     { id: "property", label: "Property", icon: "Home" },
     { id: "electronics", label: "Electronics", icon: "Cpu" },
+    { id: "mobile", label: "Mobiles", icon: "Smartphone" },
     { id: "luxury", label: "Luxury", icon: "Gem" },
     { id: "business", label: "Business", icon: "Briefcase" },
-    { id: "more", label: "More", icon: "PlusCircle" },
   ],
   listings: [
     {
@@ -50,6 +51,33 @@ export const LANDING_DATA = {
       category: "Vehicles",
       image: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800",
       badge: "Featured",
+    },
+    {
+      id: "5",
+      title: "2024 Volkswagen Polo GTI",
+      price: "Rs 12,500,000",
+      location: "Islamabad, PK",
+      category: "Vehicles",
+      image: "https://images.unsplash.com/photo-1542362567-b05e81799a14?auto=format&fit=crop&q=80&w=800",
+      badge: "Imported",
+    },
+    {
+      id: "6",
+      title: "iPhone 15 Pro Max - 1TB Titanium",
+      price: "Rs 450,000",
+      location: "Karachi, PK",
+      category: "Mobiles",
+      image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?auto=format&fit=crop&q=80&w=800",
+      badge: "In Stock",
+    },
+    {
+      id: "7",
+      title: "MacBook Pro M3 Max - 128GB RAM",
+      price: "Rs 1,150,000",
+      location: "Lahore, PK",
+      category: "Electronics",
+      image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=800",
+      badge: "Seal Packed",
     },
     {
       id: "2",
@@ -106,11 +134,11 @@ export const LANDING_DATA = {
     ]
   },
   partners: [
-    "DHA", "Bahria Town", "Emaar Pakistan", "Habib Bank", "Lucky One"
+    "DHA", "Bahria Town", "Emaar Pakistan", "Lucky One"
   ],
   cta: {
     title: "Ready to trade in Pakistan?",
-    subtitle: "Join the country's most elite trading network today.",
+    subtitle: "Join the country's most elite trading network today. Karachi, Lahore, Islamabad and beyond.",
     button: "Post your Ad"
   },
   faq: {
@@ -127,30 +155,30 @@ export const LANDING_DATA = {
       {
         title: "Platform",
         links: [
-          { label: "Marketplace", href: "#" },
-          { label: "Properties", href: "#" },
-          { label: "Vehicles", href: "#" },
-          { label: "Support", href: "#" }
-        ]
+          { label: "Vehicles", href: "/vehicles" },
+          { label: "Properties", href: "/properties" },
+          { label: "Electronics", href: "/electronics" },
+          { label: "Mobiles", href: "/mobiles" },
+        ],
       },
       {
-        title: "Cities",
+        title: "Support",
         links: [
-          { label: "Karachi", href: "#" },
-          { label: "Lahore", href: "#" },
-          { label: "Islamabad", href: "#" },
-          { label: "Faisalabad", href: "#" }
-        ]
+          { label: "Help Center", href: "/support" },
+          { label: "support@tradixa.com", href: "mailto:support@tradixa.com" },
+          { label: "UAN: 111-872-349", href: "tel:111872349" },
+          { label: "Contact Hub", href: "/contact" },
+        ],
       },
       {
         title: "Legal",
         links: [
-          { label: "Privacy Policy", href: "#" },
-          { label: "Terms of Use", href: "#" },
-          { label: "Safety Tips", href: "#" },
-          { label: "Compliance", href: "#" }
-        ]
-      }
+          { label: "Privacy Protocol", href: "/privacy" },
+          { label: "Terms of Service", href: "/privacy" },
+          { label: "Audit Standards", href: "/support" },
+          { label: "Governance", href: "/privacy" },
+        ],
+      },
     ],
     socials: ["Twitter", "LinkedIn", "Instagram", "Facebook"]
   }

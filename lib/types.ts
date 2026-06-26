@@ -7,7 +7,8 @@ export interface Listing {
   image: string;
   badge?: string;
   sellerId: string;
-  createdAt: string;
+  sellerName?: string;
+  createdAt: any;
   status: "active" | "sold" | "pending";
   description?: string;
   specs?: Record<string, string>;

@@ -3,7 +3,8 @@
 import { LANDING_DATA } from "@/data/landing";
 import { Navbar } from "@/components/landing/Navbar";
 import { PremiumFooter } from "@/components/landing/Footer";
-import { Search, MapPin, Maximize2, BedDouble, Bath, ArrowUpRight, Tag, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { Search, MapPin, Maximize2, BedDouble, Bath, ArrowUpRight, Tag, ArrowRight, Plus } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useListings } from "@/hooks/use-listings";
@@ -18,12 +19,19 @@ export default function PropertiesPage() {
   const [searchInput, setSearchInput] = useState("");
   const debouncedSearch = useDebounce(searchInput, 500);
   const { listings, loading, error } = useListings("Property", debouncedSearch);
+  const [activeCategory, setActiveCategory] = useState("All");
 
   useEffect(() => {
     if (error) {
       toast.error("Institutional data feed interrupted.");
     }
   }, [error]);
+
+  const filteredListings = listings.filter(item => {
+    if (activeCategory === "All") return true;
+    return item.title.toLowerCase().includes(activeCategory.toLowerCase()) || 
+           item.badge?.toLowerCase().includes(activeCategory.toLowerCase());
+  });
 
   useGSAP(() => {
     gsap.from(".property-animate", {
@@ -56,7 +64,7 @@ export default function PropertiesPage() {
               From the serene heights of Islamabad to the urban prestige of DHA Lahore, discover Pakistan&apos;s most coveted addresses.
             </p>
             <div className="flex gap-4">
-              <button className="h-14 px-10 bg-black text-white rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-zinc-800 transition-all">
+              <button className="h-14 px-10 bg-black text-white rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-zinc-800 transition-all shadow-lg shadow-black/10">
                 Book a Viewing
               </button>
               <button className="h-14 px-10 border border-zinc-200 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-white transition-all">
@@ -78,19 +86,52 @@ export default function PropertiesPage() {
         </div>
       </section>
 
+      {/* Marketplace Navigator */}
+      <section className="pt-24 px-10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+           <div className="inline-flex bg-zinc-100 p-1.5 rounded-2xl border border-zinc-200">
+              <button className="px-8 py-3 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] bg-black text-white shadow-xl">
+                Properties
+              </button>
+              <Link href="/vehicles">
+                <button className="px-8 py-3 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-black transition-all">
+                  Vehicles
+                </button>
+              </Link>
+           </div>
+           
+           <div className="flex gap-4">
+             <Link href="/sell">
+               <button className="h-14 px-10 bg-black text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-zinc-800 transition-all flex items-center gap-3">
+                 <Plus className="w-4 h-4" /> Post Your Asset
+               </button>
+             </Link>
+             <Link href="/dashboard">
+               <button className="h-14 px-10 border border-zinc-200 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-sm">
+                 My Portfolio
+               </button>
+             </Link>
+           </div>
+        </div>
+      </section>
+
       {/* Property Filters & Featured */}
       <section className="py-32 px-10">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-20 property-animate">
             <div className="flex gap-4 overflow-x-auto no-scrollbar w-full md:w-auto">
               {["All", "Houses", "Apartments", "Plots", "Commercial"].map((type) => (
-                <button key={type} className="px-8 py-4 rounded-xl bg-white border border-zinc-100 text-[11px] font-bold uppercase tracking-widest hover:border-black transition-all">
+                <button 
+                  key={type} 
+                  onClick={() => setActiveCategory(type)}
+                  className={`px-8 py-4 rounded-xl border text-[11px] font-bold uppercase tracking-widest transition-all ${activeCategory === type ? 'bg-black text-white border-black shadow-lg shadow-black/10' : 'bg-white border-zinc-100 text-zinc-500 hover:border-black hover:text-black'}`}
+                >
                   {type}
                 </button>
               ))}
             </div>
-            <div className="relative w-full md:w-96">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+            <div className="relative w-full md:w-96 group">
+              <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-black transition-colors" />
               <input 
                 type="text" 
                 value={searchInput}
@@ -112,9 +153,9 @@ export default function PropertiesPage() {
                    </div>
                 </div>
               ))
-            ) : listings.length > 0 ? (
-              listings.map((item) => (
-                <div key={item.id} className="group cursor-pointer property-animate">
+            ) : filteredListings.length > 0 ? (
+              filteredListings.map((item) => (
+                <Link key={item.id} href={`/listing/${item.id}`} className="group cursor-pointer property-animate block">
                   <div className="relative aspect-video rounded-[3rem] overflow-hidden bg-zinc-100 mb-10 shadow-2xl">
                     <Image src={item.image} alt={item.title} fill className="object-cover transition-transform duration-1000 group-hover:scale-105" />
                     <div className="absolute top-10 left-10">
@@ -144,7 +185,7 @@ export default function PropertiesPage() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))
             ) : (
               <div className="col-span-2 py-32 text-center border-2 border-dashed border-zinc-100 rounded-[3rem]">

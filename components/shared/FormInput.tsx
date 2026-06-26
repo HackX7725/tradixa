@@ -15,13 +15,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Control } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 
 interface FormInputProps {
-  control: Control<any>;
+  control: any;
   name: string;
   label: string;
   placeholder?: string;

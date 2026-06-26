@@ -31,6 +31,7 @@ export default function SellPage() {
     description: "",
     price: "",
     location: "",
+    audit: false,
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,7 +129,7 @@ export default function SellPage() {
                     <Input 
                       value={formData.title}
                       onChange={e => setFormData({...formData, title: e.target.value})}
-                      placeholder="e.g. 2024 Toyota Land Cruiser" 
+                      placeholder="Specify Asset Model & Year" 
                       className="h-14 rounded-2xl border-zinc-100 focus:border-black transition-all bg-zinc-50/50" 
                     />
                   </div>
@@ -151,7 +152,7 @@ export default function SellPage() {
                   <textarea 
                     value={formData.description}
                     onChange={e => setFormData({...formData, description: e.target.value})}
-                    placeholder="Describe your asset in detail..."
+                    placeholder="Provide a comprehensive technical description of the asset..."
                     className="w-full min-h-[200px] rounded-[32px] border border-zinc-100 bg-zinc-50/50 p-8 text-sm font-medium outline-none focus:border-black transition-all resize-none"
                   />
                 </div>
@@ -168,7 +169,7 @@ export default function SellPage() {
                       <Input 
                         value={formData.price}
                         onChange={e => setFormData({...formData, price: e.target.value})}
-                        placeholder="0.00" 
+                        placeholder="" 
                         className="h-14 pl-14 rounded-2xl border-zinc-100 focus:border-black transition-all bg-zinc-50/50" 
                       />
                     </div>
@@ -180,25 +181,36 @@ export default function SellPage() {
                       <Input 
                         value={formData.location}
                         onChange={e => setFormData({...formData, location: e.target.value})}
-                        placeholder="City, Area" 
+                        placeholder="Geographic Region & Hub" 
                         className="h-14 pl-14 rounded-2xl border-zinc-100 focus:border-black transition-all bg-zinc-50/50" 
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="p-8 rounded-[32px] bg-zinc-950 text-white flex items-center justify-between">
+                <div 
+                  onClick={() => setFormData({...formData, audit: !formData.audit})}
+                  className={`p-8 rounded-[32px] flex items-center justify-between cursor-pointer transition-all ${
+                    formData.audit ? "bg-emerald-600 text-white shadow-xl shadow-emerald-500/20" : "bg-zinc-950 text-white"
+                  }`}
+                >
                   <div className="flex items-center gap-6">
-                    <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center">
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${
+                      formData.audit ? "bg-white/20" : "bg-white/10"
+                    }`}>
                       <Tag className="w-6 h-6 text-white" />
                     </div>
                     <div>
                       <h4 className="font-bold tracking-tight">Institutional Audit</h4>
-                      <p className="text-xs text-zinc-500">Enable verified status for faster sales</p>
+                      <p className={`text-xs transition-all ${formData.audit ? "text-emerald-100" : "text-zinc-500"}`}>
+                        {formData.audit ? "Audit requested - Our team will contact you" : "Enable verified status for faster sales"}
+                      </p>
                     </div>
                   </div>
-                  <button className="w-12 h-6 rounded-full bg-zinc-800 relative">
-                    <div className="absolute left-1 top-1 w-4 h-4 rounded-full bg-white" />
+                  <button className={`w-12 h-6 rounded-full relative transition-all ${formData.audit ? "bg-white" : "bg-zinc-800"}`}>
+                    <div className={`absolute top-1 w-4 h-4 rounded-full transition-all ${
+                      formData.audit ? "right-1 bg-emerald-600" : "left-1 bg-white"
+                    }`} />
                   </button>
                 </div>
               </div>

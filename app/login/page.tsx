@@ -73,6 +73,21 @@ export default function LoginPage() {
     }
   }
 
+  async function handleSocialSignIn(provider: "google" | "facebook") {
+    console.log("Starting social sign-in with:", provider);
+    setIsLoading(true);
+    try {
+      await signIn.social({
+        provider: provider,
+        callbackURL: "/dashboard",
+      });
+    } catch (err: any) {
+      console.error("Social Sign-In Error:", err);
+      toast.error("Handshake failed. Ensure your browser allows cookies.");
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className="min-h-screen w-full flex bg-white text-zinc-900 font-sans selection:bg-black selection:text-white">
       <AuthSidebar 
@@ -143,6 +158,7 @@ export default function LoginPage() {
                 provider={p.id as "facebook" | "google"} 
                 label={p.name} 
                 className="h-14 rounded-2xl border-zinc-200/60 shadow-sm"
+                onClick={() => handleSocialSignIn(p.id as "facebook" | "google")}
               />
             ))}
           </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -23,6 +24,7 @@ import {
 
 // Data
 import { LANDING_DATA } from "@/data/landing";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -52,6 +54,27 @@ export default function LandingPage() {
         <Hero />
         
         <div className="relative z-20">
+          <section className="py-10 px-10">
+            <div className="max-w-7xl mx-auto flex justify-center">
+               <div className="inline-flex bg-zinc-100 p-2 rounded-full border border-zinc-200">
+                  <Link href="/marketplace">
+                    <button className="px-10 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-black transition-all">
+                      Marketplace
+                    </button>
+                  </Link>
+                  <Link href="/properties">
+                    <button className="px-10 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-black transition-all">
+                      Properties
+                    </button>
+                  </Link>
+                  <Link href="/vehicles">
+                    <button className="px-10 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-black transition-all">
+                      Vehicles
+                    </button>
+                  </Link>
+               </div>
+            </div>
+          </section>
           <CategoryBar />
           <ListingGrid />
         </div>

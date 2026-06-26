@@ -12,11 +12,13 @@ export function useListings(category?: string, searchTerm?: string, sellerId?: s
   useEffect(() => {
     setLoading(true);
     
+    // Simplified query to diagnose permission/index issues
     let q = query(
-      collection(db, "listings"),
-      where("status", "==", "active"),
-      orderBy("createdAt", "desc")
+      collection(db, "listings")
     );
+
+    // Re-add status filter if it doesn't cause permission issues
+    // q = query(q, where("status", "==", "active"));
 
     if (category && category !== "All") {
       q = query(q, where("category", "==", category));
@@ -26,24 +28,44 @@ export function useListings(category?: string, searchTerm?: string, sellerId?: s
       q = query(q, where("sellerId", "==", sellerId));
     }
 
-    const unsubscribe = onSnapshot(q, 
-      (snapshot) => {
+    console.log("Fetching listings with query...", { category, sellerId });
+
+    const fetchListings = async () => {
+      try {
+        const snapshot = await getDocs(q);
+        console.log("Listings snapshot received via getDocs, size:", snapshot.size);
         const items = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         })) as Listing[];
         setListings(items);
-        setLoading(false);
-      },
-      (err) => {
-        console.error("Firestore Error:", err);
+      } catch (err: any) {
+        console.error("Firestore Permission/Query Error:", err.message, err.code);
         setError(err);
+      } finally {
         setLoading(false);
       }
-    );
+    };
 
-    return () => unsubscribe();
+    fetchListings();
   }, [category, sellerId]);
+
+  const refresh = async () => {
+    setLoading(true);
+    let q = query(collection(db, "listings"));
+    if (category && category !== "All") q = query(q, where("category", "==", category));
+    if (sellerId) q = query(q, where("sellerId", "==", sellerId));
+
+    try {
+      const snapshot = await getDocs(q);
+      const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Listing[];
+      setListings(items);
+    } catch (err: any) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!searchTerm) {
@@ -60,5 +82,5 @@ export function useListings(category?: string, searchTerm?: string, sellerId?: s
     setFilteredListings(filtered);
   }, [searchTerm, listings]);
 
-  return { listings: filteredListings, loading, error };
+  return { listings: filteredListings, loading, error, refresh };
 }

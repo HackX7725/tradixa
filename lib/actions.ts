@@ -14,32 +14,16 @@ export async function createListing(formData: FormData) {
     const sellerId = formData.get("sellerId") as string;
     const imageFiles = formData.getAll("images") as File[];
 
-    const bucket = getStorage(adminApp).bucket("gs://tradixa-f1af4.appspot.com");
-
-    // DIAGNOSTIC: List all available buckets via the storage client
-    try {
-      const [buckets] = await bucket.storage.getBuckets();
-      console.log("CRITICAL DIAGNOSTIC - True Bucket Names:", buckets.map((b: any) => b.name));
-    } catch (e) { }
-
     const imageUrls: string[] = [];
-
-    // 1. Upload Images to Firebase Storage (Server-side)
+    
+    // 1. Convert Images to Base64 (Server-side)
     for (const file of imageFiles) {
       if (file.size === 0) continue;
-
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const fileName = `listings/${Date.now()}-${file.name}`;
-      const blob = bucket.file(fileName);
-
-      await blob.save(buffer, {
-        contentType: file.type,
-        public: true,
-      });
-
-      // Construct public URL
-      const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
-      imageUrls.push(publicUrl);
+      
+      const buffer = await file.arrayBuffer();
+      const base64 = Buffer.from(buffer).toString("base64");
+      const dataUrl = `data:${file.type};base64,${base64}`;
+      imageUrls.push(dataUrl);
     }
 
     // 2. Create Firestore Doc using Admin SDK
