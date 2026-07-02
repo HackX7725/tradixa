@@ -10,7 +10,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Loader2, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
-import { signUp } from "@/lib/auth-client";
+import { signUp, signIn } from "@/lib/auth-client";
 
 // Shared Components
 import { AuthSidebar } from "@/components/shared/AuthSidebar";
@@ -36,6 +36,21 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const formRef = useRef<HTMLDivElement>(null);
+
+  async function handleSocialSignIn(provider: "google" | "facebook") {
+    console.log("Starting social sign-up with:", provider);
+    setIsLoading(true);
+    try {
+      await signIn.social({
+        provider: provider,
+        callbackURL: "/dashboard",
+      });
+    } catch (err: any) {
+      console.error("Social Sign-Up Error:", err);
+      toast.error("Handshake failed. Ensure your browser allows cookies.");
+      setIsLoading(false);
+    }
+  }
 
   useGSAP(() => {
     gsap.fromTo(
@@ -141,6 +156,7 @@ export default function RegisterPage() {
                 provider={p.id as "facebook" | "google"} 
                 label={p.name} 
                 className="h-14 rounded-2xl border-zinc-200/60 shadow-sm"
+                onClick={() => handleSocialSignIn(p.id as "facebook" | "google")}
               />
             ))}
           </div>

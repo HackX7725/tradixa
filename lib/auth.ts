@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { firestoreAdapter } from "better-auth-firestore";
 import { adminDb } from "./firebase";
+import { nextCookies } from "better-auth/next-js";
 
 export const auth = betterAuth({
   database: adminDb
@@ -40,4 +41,5 @@ export const auth = betterAuth({
     },
   },
   debug: true,
+  plugins: [nextCookies()],
 });
