@@ -10,11 +10,15 @@ export function useListings(category?: string, searchTerm?: string, sellerId?: s
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    if (!db) {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     
     // Simplified query to diagnose permission/index issues
     let q = query(
-      collection(db, "listings")
+      collection(db!, "listings")
     );
 
     // Re-add status filter if it doesn't cause permission issues
@@ -51,8 +55,9 @@ export function useListings(category?: string, searchTerm?: string, sellerId?: s
   }, [category, sellerId]);
 
   const refresh = async () => {
+    if (!db) return;
     setLoading(true);
-    let q = query(collection(db, "listings"));
+    let q = query(collection(db!, "listings"));
     if (category && category !== "All") q = query(q, where("category", "==", category));
     if (sellerId) q = query(q, where("sellerId", "==", sellerId));
 

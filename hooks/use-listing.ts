@@ -9,11 +9,11 @@ export function useListing(id: string) {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    if (!id) return;
+    if (!db || !id) return;
 
     const fetchListing = async () => {
       try {
-        const docRef = doc(db, "listings", id);
+        const docRef = doc(db!, "listings", id);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {

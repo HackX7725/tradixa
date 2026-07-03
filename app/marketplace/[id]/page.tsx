@@ -22,9 +22,9 @@ export default function ListingDetailPage() {
 
   useEffect(() => {
     async function fetchListing() {
-      if (!id) return;
+      if (!db || !id) return;
       try {
-        const docRef = doc(db, "listings", id as string);
+        const docRef = doc(db!, "listings", id as string);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           setListing({ id: docSnap.id, ...docSnap.data() } as Listing);

@@ -22,16 +22,23 @@ const createFirebaseAdminApp = () => {
       });
     } else {
       console.warn("Firebase Admin credentials missing. Auth database will be unavailable.");
+      return undefined;
     }
   }
-  return getApp();
+  try {
+    return getApp();
+  } catch (e) {
+    return undefined;
+  }
 };
 
 export const adminApp = createFirebaseAdminApp();
-export const adminDb = getFirestore(adminApp);
-try {
-  adminDb.settings({ ignoreUndefinedProperties: true });
-} catch (e) {
-  // Settings already applied or Firestore already in use
+export const adminDb = adminApp ? getFirestore(adminApp) : undefined;
+if (adminDb) {
+  try {
+    adminDb.settings({ ignoreUndefinedProperties: true });
+  } catch (e) {
+    // Settings already applied or Firestore already in use
+  }
 }
-export const adminAuth = getAuth(adminApp);
+export const adminAuth = adminApp ? getAuth(adminApp) : undefined;
