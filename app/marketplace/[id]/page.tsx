@@ -7,18 +7,23 @@ import { db } from "@/lib/firebase-client";
 import { Listing } from "@/lib/types";
 import { Navbar } from "@/components/landing/Navbar";
 import { PremiumFooter } from "@/components/landing/Footer";
-import { MapPin, Tag, ShieldCheck, Share2, Heart, MessageCircle, Phone, ArrowLeft, Loader2, Calendar, Info } from "lucide-react";
+import { MapPin, Tag, ShieldCheck, Share2, Heart, MessageCircle, Phone, ArrowLeft, Loader2, Calendar, Info, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useSession } from "@/lib/auth-client";
+import { deleteListing } from "@/lib/actions";
 
 export default function ListingDetailPage() {
   const { id } = useParams();
   const router = useRouter();
   const [listing, setListing] = useState<Listing | null>(null);
   const [loading, setLoading] = useState(true);
+  const { data: session } = useSession();
+
+  const isOwner = session?.user && listing?.sellerId === session.user.id;
 
   useEffect(() => {
     async function fetchListing() {
@@ -147,16 +152,36 @@ export default function ListingDetailPage() {
                     </div>
                   </div>
 
-                  <div className="space-y-4">
-                    <Button className="w-full h-16 bg-black text-white rounded-2xl font-bold uppercase tracking-widest flex items-center gap-3 hover:bg-zinc-800 transition-all">
-                       <MessageCircle className="w-5 h-5" />
-                       Direct Consultation
+                  {isOwner ? (
+                    <Button 
+                      onClick={async () => {
+                        if (confirm("Are you sure you want to remove this institutional asset?")) {
+                          try {
+                            await deleteListing(listing.id);
+                            toast.success("Asset removed from portfolio.");
+                            router.push("/dashboard");
+                          } catch (err) {
+                            toast.error("Failed to remove asset.");
+                          }
+                        }
+                      }}
+                      className="w-full h-16 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold uppercase tracking-widest flex items-center justify-center gap-3 transition-all shadow-xl shadow-red-500/10 active:scale-[0.98]"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                      Delete Listing
                     </Button>
-                    <Button variant="outline" className="w-full h-16 border-zinc-200 rounded-2xl font-bold uppercase tracking-widest flex items-center gap-3 hover:bg-zinc-50 transition-all">
-                       <Phone className="w-5 h-5" />
-                       Show Contact
-                    </Button>
-                  </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <Button className="w-full h-16 bg-black text-white rounded-2xl font-bold uppercase tracking-widest flex items-center gap-3 hover:bg-zinc-800 transition-all">
+                         <MessageCircle className="w-5 h-5" />
+                         Direct Consultation
+                      </Button>
+                      <Button variant="outline" className="w-full h-16 border-zinc-200 rounded-2xl font-bold uppercase tracking-widest flex items-center gap-3 hover:bg-zinc-50 transition-all">
+                         <Phone className="w-5 h-5" />
+                         Show Contact
+                      </Button>
+                    </div>
+                  )}
                 </div>
 
                 {/* Protocol Card */}

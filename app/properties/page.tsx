@@ -44,7 +44,7 @@ export default function PropertiesPage() {
   }, { scope: containerRef });
 
   return (
-    <main ref={containerRef} className="min-h-screen bg-[#F8F9FA]">
+    <main ref={containerRef} className="min-h-screen bg-[#F8F9FA] text-zinc-900 selection:bg-black selection:text-white">
       <Navbar />
       
       {/* Editorial Header */}
@@ -53,9 +53,9 @@ export default function PropertiesPage() {
           <div className="flex flex-col gap-8">
             <div className="flex items-center gap-4 property-animate">
               <div className="w-12 h-[1px] bg-black" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.4em]">Real Estate</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.4em] text-zinc-900">Real Estate</span>
             </div>
-            <h1 className="text-7xl md:text-9xl font-bold tracking-tighter leading-[0.8] property-animate">
+            <h1 className="text-7xl md:text-9xl font-bold tracking-tighter leading-[0.8] property-animate text-black">
               Elite <br /> Estates.
             </h1>
           </div>
@@ -67,7 +67,7 @@ export default function PropertiesPage() {
               <button className="h-14 px-10 bg-black text-white rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-zinc-800 transition-all shadow-lg shadow-black/10">
                 Book a Viewing
               </button>
-              <button className="h-14 px-10 border border-zinc-200 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-white transition-all">
+              <button className="h-14 px-10 border border-zinc-200 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-white text-black transition-all">
                 Virtual Tours
               </button>
             </div>
@@ -137,7 +137,7 @@ export default function PropertiesPage() {
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 placeholder="Find a city or project..."
-                className="w-full bg-white border border-zinc-100 rounded-xl py-4 pl-14 pr-6 text-sm outline-none focus:border-black transition-all"
+                className="w-full bg-white border border-zinc-100 rounded-xl py-4 pl-14 pr-6 text-sm outline-none focus:border-black text-black transition-all"
               />
             </div>
           </div>
@@ -171,17 +171,17 @@ export default function PropertiesPage() {
                   </div>
                   <div className="space-y-4 px-4">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-4xl font-bold tracking-tighter group-hover:text-zinc-500 transition-colors">{item.title}</h3>
+                      <h3 className="text-4xl font-bold tracking-tighter group-hover:text-zinc-500 transition-colors text-black">{item.title}</h3>
                       <span className="text-2xl font-light text-zinc-400">{item.price}</span>
                     </div>
                     <div className="flex items-center gap-6 text-zinc-400">
                       <div className="flex items-center gap-2">
                         <MapPin className="w-4 h-4" />
-                        <span className="text-[11px] font-bold uppercase tracking-widest">{item.location}</span>
+                        <span className="text-[11px] font-bold uppercase tracking-widest text-zinc-500">{item.location}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Tag className="w-4 h-4" />
-                        <span className="text-[11px] font-bold uppercase tracking-widest">Institutional Grade</span>
+                        <span className="text-[11px] font-bold uppercase tracking-widest text-zinc-500">Institutional Grade</span>
                       </div>
                     </div>
                   </div>
@@ -189,7 +189,7 @@ export default function PropertiesPage() {
               ))
             ) : (
               <div className="col-span-2 py-32 text-center border-2 border-dashed border-zinc-100 rounded-[3rem]">
-                 <p className="text-2xl font-bold tracking-tight mb-2">No properties currently listed</p>
+                 <p className="text-2xl font-bold tracking-tight mb-2 text-black">No properties currently listed</p>
                  <p className="text-zinc-500">Check back soon for new high-value estate opportunities.</p>
               </div>
             )}

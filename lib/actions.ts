@@ -56,3 +56,28 @@ export async function deleteListing(id: string) {
     throw error;
   }
 }
+
+export async function updateListing(
+  id: string,
+  data: {
+    title: string;
+    category: string;
+    description: string;
+    price: string;
+    location: string;
+  }
+) {
+  try {
+    await adminDb!.collection("listings").doc(id).update({
+      title: data.title,
+      category: data.category,
+      description: data.description,
+      price: data.price,
+      location: data.location,
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating listing:", error);
+    throw error;
+  }
+}

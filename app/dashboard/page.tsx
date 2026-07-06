@@ -5,9 +5,10 @@ import { useSession, signOut } from "@/lib/auth-client";
 import { Navbar } from "@/components/landing/Navbar";
 import { PremiumFooter } from "@/components/landing/Footer";
 import { useListings } from "@/hooks/use-listings";
-import { Loader2, Plus, Settings, Package, Heart, CreditCard, ChevronRight, LogOut, Trash2 } from "lucide-react";
-import { deleteListing } from "@/lib/actions";
+import { Loader2, Plus, Settings, Package, Heart, CreditCard, ChevronRight, LogOut, Trash2, X } from "lucide-react";
+import { deleteListing, updateListing } from "@/lib/actions";
 import { toast } from "sonner";
+import { LANDING_DATA } from "@/data/landing";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -16,8 +17,45 @@ import { useRouter } from "next/navigation";
 export default function DashboardPage() {
   const router = useRouter();
   const { data: session, isPending } = useSession();
-  const [activeTab, setActiveTab] = useState("Buying");
+  const [activeTab, setActiveTab] = useState("Selling");
   const { listings, loading: listingsLoading, refresh } = useListings(undefined, undefined, session?.user?.id);
+
+  const [editingListing, setEditingListing] = useState<any | null>(null);
+  const [editFormData, setEditFormData] = useState({
+    title: "",
+    category: "Vehicles",
+    description: "",
+    price: "",
+    location: "",
+  });
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const handleEditClick = (item: any) => {
+    setEditingListing(item);
+    setEditFormData({
+      title: item.title,
+      category: item.category,
+      description: item.description || "",
+      price: item.price,
+      location: item.location,
+    });
+  };
+
+  const handleUpdateSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingListing) return;
+    setIsUpdating(true);
+    try {
+      await updateListing(editingListing.id, editFormData);
+      toast.success("Listing updated successfully!");
+      setEditingListing(null);
+      refresh();
+    } catch (error) {
+      toast.error("Failed to update listing.");
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   if (isPending) {
     return (
@@ -131,13 +169,16 @@ export default function DashboardPage() {
                                        }
                                      }
                                    }}
-                                   className="w-10 h-10 rounded-full flex items-center justify-center text-zinc-300 hover:bg-red-50 hover:text-red-500 transition-all"
+                                    className="w-10 h-10 rounded-full flex items-center justify-center bg-zinc-50 border border-zinc-100 text-zinc-400 hover:bg-red-50 hover:text-red-600 transition-all shadow-sm"
                                  >
                                     <Trash2 className="w-4 h-4" />
                                  </button>
-                                 <button className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-zinc-300 group-hover:text-black transition-all">
-                                    Manage <ChevronRight className="w-4 h-4" />
-                                 </button>
+                                  <button 
+                                    onClick={() => handleEditClick(item)}
+                                    className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-zinc-400 hover:text-black transition-all"
+                                  >
+                                     Manage <ChevronRight className="w-4 h-4" />
+                                  </button>
                               </div>
                           </div>
                        </div>
@@ -211,6 +252,101 @@ export default function DashboardPage() {
       </section>
 
       <PremiumFooter />
+
+      {editingListing && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-6 animate-in fade-in duration-200">
+          <div className="bg-white w-full max-w-2xl rounded-[40px] border border-zinc-100 p-12 shadow-2xl relative overflow-y-auto max-h-[90vh] space-y-8 animate-in zoom-in-95 duration-200">
+            <button 
+              type="button"
+              onClick={() => setEditingListing(null)}
+              className="absolute top-8 right-8 w-12 h-12 rounded-full border border-zinc-100 flex items-center justify-center hover:bg-zinc-50 transition-all text-zinc-400 hover:text-black"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="space-y-2">
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.4em]">Quick Customizer</span>
+              <h2 className="text-4xl font-bold tracking-tight text-black">Manage Asset.</h2>
+            </div>
+
+            <form onSubmit={handleUpdateSubmit} className="space-y-6 text-left">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Asset Title</label>
+                  <input 
+                    type="text"
+                    required
+                    value={editFormData.title}
+                    onChange={e => setEditFormData({...editFormData, title: e.target.value})}
+                    className="w-full h-14 px-6 rounded-2xl border border-zinc-200 bg-zinc-50/50 text-sm font-medium outline-none focus:border-black transition-all" 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Category</label>
+                  <select 
+                    value={editFormData.category}
+                    onChange={e => setEditFormData({...editFormData, category: e.target.value})}
+                    className="w-full h-14 rounded-2xl border border-zinc-200 bg-zinc-50/50 px-6 text-sm font-medium outline-none focus:border-black transition-all appearance-none"
+                  >
+                    {LANDING_DATA.categories.map(cat => (
+                      <option key={cat.id} value={cat.label}>{cat.label}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Price</label>
+                  <input 
+                    type="text"
+                    required
+                    value={editFormData.price}
+                    onChange={e => setEditFormData({...editFormData, price: e.target.value})}
+                    className="w-full h-14 px-6 rounded-2xl border border-zinc-200 bg-zinc-50/50 text-sm font-medium outline-none focus:border-black transition-all" 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Location</label>
+                  <input 
+                    type="text"
+                    required
+                    value={editFormData.location}
+                    onChange={e => setEditFormData({...editFormData, location: e.target.value})}
+                    className="w-full h-14 px-6 rounded-2xl border border-zinc-200 bg-zinc-50/50 text-sm font-medium outline-none focus:border-black transition-all" 
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Description</label>
+                <textarea 
+                  value={editFormData.description}
+                  onChange={e => setEditFormData({...editFormData, description: e.target.value})}
+                  className="w-full min-h-[150px] rounded-3xl border border-zinc-200 bg-zinc-50/50 p-6 text-sm font-medium outline-none focus:border-black transition-all resize-none"
+                />
+              </div>
+
+              <div className="flex justify-end gap-4 pt-4">
+                <button 
+                  type="button"
+                  onClick={() => setEditingListing(null)}
+                  className="h-14 px-8 border border-zinc-200 text-black hover:bg-zinc-50 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all"
+                >
+                  Cancel
+                </button>
+                <Button 
+                  type="submit"
+                  disabled={isUpdating}
+                  className="h-14 px-8 bg-black text-white rounded-full text-[11px] font-bold uppercase tracking-widest flex items-center gap-3"
+                >
+                  {isUpdating ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Changes"}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

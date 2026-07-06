@@ -4,19 +4,25 @@ import { useListing } from "@/hooks/use-listing";
 import { Navbar } from "@/components/landing/Navbar";
 import { PremiumFooter } from "@/components/landing/Footer";
 import { Skeleton } from "@/components/ui/skeleton";
-import { MapPin, ShieldCheck, Phone, Mail, Share2, Heart, ArrowLeft, Calendar, Gauge, Fuel, Zap, CheckCircle2 } from "lucide-react";
+import { MapPin, ShieldCheck, Phone, Mail, Share2, Heart, ArrowLeft, Calendar, Gauge, Fuel, Zap, CheckCircle2, Trash2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
+import { useSession } from "@/lib/auth-client";
+import { deleteListing } from "@/lib/actions";
+import { toast } from "sonner";
 
 export default function ListingDetailPage() {
   const { id } = useParams();
   const router = useRouter();
   const { listing, loading, error } = useListing(id as string);
+  const { data: session } = useSession();
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const isOwner = session?.user && listing?.sellerId === session.user.id;
 
   useGSAP(() => {
     if (!loading && listing) {
@@ -174,14 +180,33 @@ export default function ListingDetailPage() {
                    </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <button className="h-16 bg-black text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-zinc-800 transition-all flex items-center justify-center gap-3 shadow-xl">
-                    <Phone className="w-4 h-4" /> Reveal Contact
+                {isOwner ? (
+                  <button 
+                    onClick={async () => {
+                      if (confirm("Are you sure you want to remove this institutional asset?")) {
+                        try {
+                          await deleteListing(listing.id);
+                          toast.success("Asset removed from portfolio.");
+                          router.push("/dashboard");
+                        } catch (err) {
+                          toast.error("Failed to remove asset.");
+                        }
+                      }
+                    }}
+                    className="w-full h-16 bg-red-600 hover:bg-red-700 text-white rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-3 shadow-xl shadow-red-500/10 active:scale-[0.98]"
+                  >
+                    <Trash2 className="w-4.5 h-4.5" /> Delete Listing
                   </button>
-                  <button className="h-16 bg-white text-black border border-zinc-200 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:border-black transition-all flex items-center justify-center gap-3">
-                    <Mail className="w-4 h-4" /> Message Desk
-                  </button>
-                </div>
+                ) : (
+                  <div className="grid grid-cols-2 gap-4">
+                    <button className="h-16 bg-black text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-zinc-800 transition-all flex items-center justify-center gap-3 shadow-xl">
+                      <Phone className="w-4 h-4" /> Reveal Contact
+                    </button>
+                    <button className="h-16 bg-white text-black border border-zinc-200 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:border-black transition-all flex items-center justify-center gap-3">
+                      <Mail className="w-4 h-4" /> Message Desk
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div className="space-y-6 pt-10">

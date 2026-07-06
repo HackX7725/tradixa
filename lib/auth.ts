@@ -25,7 +25,13 @@ export const auth = betterAuth({
       scope: ["public_profile", "email"],
     },
   },
-  trustHost: true,
+  trustedOrigins: [
+    "https://tradixa.pk",
+    "http://localhost:3000",
+  ],
+  advanced: {
+    trustedProxyHeaders: true,
+  },
   databaseHooks: {
     user: {
       create: {
