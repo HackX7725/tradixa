@@ -35,23 +35,23 @@ export function SellSection() {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="max-w-7xl mx-auto px-10 py-32 overflow-hidden">
-      <div className="sell-container bg-zinc-900 rounded-[4rem] p-16 md:p-24 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center opacity-0">
-        <div className="space-y-10">
-          <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/10">
-            <Camera className="w-8 h-8 text-white" />
+    <section ref={sectionRef} className="max-w-7xl mx-auto px-6 md:px-10 py-16 md:py-32 overflow-hidden">
+      <div className="sell-container bg-zinc-900 rounded-[2.5rem] md:rounded-[4rem] p-8 sm:p-16 md:p-24 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center opacity-0">
+        <div className="space-y-6 md:space-y-10">
+          <div className="w-12 h-12 md:w-16 md:h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/10">
+            <Camera className="w-6 h-6 md:w-8 md:h-8 text-white" />
           </div>
-          <div className="space-y-6">
-            <h2 className="text-6xl font-semibold tracking-tight leading-[1.1] text-white">{LANDING_DATA.sell.title}</h2>
-            <p className="text-xl text-zinc-400 font-light leading-relaxed max-w-md">{LANDING_DATA.sell.subtitle}</p>
+          <div className="space-y-4 md:space-y-6">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.1] text-white">{LANDING_DATA.sell.title}</h2>
+            <p className="text-base sm:text-xl text-zinc-400 font-light leading-relaxed max-w-md">{LANDING_DATA.sell.subtitle}</p>
           </div>
-          <Link href="/sell">
-            <button className="h-16 px-12 bg-white text-black rounded-full text-[13px] font-bold uppercase tracking-[0.2em] hover:bg-zinc-200 transition-all shadow-2xl active:scale-[0.98]">
+          <Link href="/sell" className="inline-block">
+            <button className="h-14 md:h-16 px-8 md:px-12 bg-white text-black rounded-full text-[12px] md:text-[13px] font-bold uppercase tracking-[0.2em] hover:bg-zinc-200 transition-all shadow-2xl active:scale-[0.98]">
               {LANDING_DATA.sell.button}
             </button>
           </Link>
         </div>
-        <div className="sell-image relative aspect-[16/10] rounded-[3rem] overflow-hidden shadow-2xl">
+        <div className="sell-image relative aspect-[16/10] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl">
           <img src={LANDING_DATA.sell.image} className="w-full h-full object-cover" alt="Sell" />
         </div>
       </div>
@@ -84,16 +84,16 @@ export function FeaturedSpotlight() {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="max-w-7xl mx-auto px-10 py-32 overflow-hidden">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-        <div className="spotlight-content space-y-8 opacity-0">
+    <section ref={sectionRef} className="max-w-7xl mx-auto px-6 md:px-10 py-16 md:py-32 overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
+        <div className="spotlight-content space-y-6 md:space-y-8 opacity-0 order-2 lg:order-1">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black text-[9px] font-bold uppercase tracking-widest text-white">
             {LANDING_DATA.featured.badge}
           </div>
-          <h2 className="text-6xl font-semibold tracking-tight leading-[1.05] text-black">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.05] text-black">
             {LANDING_DATA.featured.title}
           </h2>
-          <p className="text-xl text-zinc-500 font-light leading-relaxed">
+          <p className="text-base sm:text-xl text-zinc-500 font-light leading-relaxed">
             {LANDING_DATA.featured.subtitle}
           </p>
           <button className="flex items-center gap-3 group">
@@ -103,7 +103,7 @@ export function FeaturedSpotlight() {
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </button>
         </div>
-        <div className="relative aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl bg-zinc-100">
+        <div className="relative aspect-[4/3] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl bg-zinc-100 order-1 lg:order-2">
           <div className="spotlight-mask absolute inset-0 z-10 bg-white" />
           <img src={LANDING_DATA.featured.image} className="w-full h-full object-cover" alt="Featured" />
         </div>
@@ -135,25 +135,25 @@ export function InsightsSection() {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="max-w-7xl mx-auto px-10 py-32 bg-[#fafafa] rounded-[4rem] mx-6 my-20">
-      <div className="flex items-center justify-between mb-20">
-        <div className="space-y-4">
-          <h2 className="text-5xl font-semibold tracking-tight text-black">{LANDING_DATA.insights.title}</h2>
-          <p className="text-zinc-500 text-lg font-light">Global analysis and strategic updates.</p>
+    <section ref={sectionRef} className="max-w-7xl mx-auto px-6 md:px-16 py-16 md:py-32 bg-[#fafafa] rounded-[2.5rem] md:rounded-[4rem] mx-4 sm:mx-6 my-10 md:my-20">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12 md:mb-20">
+        <div className="space-y-3 md:space-y-4">
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-black">{LANDING_DATA.insights.title}</h2>
+          <p className="text-zinc-500 text-base md:text-lg font-light">Global analysis and strategic updates.</p>
         </div>
-        <button className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-zinc-400 hover:text-black transition-all">
+        <button className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-zinc-400 hover:text-black transition-all self-start sm:self-auto">
           Explore Insights <ArrowUpRight className="w-4 h-4" />
         </button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
         {LANDING_DATA.insights.articles.map((article) => (
-          <div key={article.id} className="insight-card space-y-6 group cursor-pointer opacity-0 perspective-1000">
-            <div className="relative aspect-[16/10] rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+          <div key={article.id} className="insight-card space-y-4 md:space-y-6 group cursor-pointer opacity-0 perspective-1000">
+            <div className="relative aspect-[16/10] rounded-2xl md:rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
               <img src={article.image} alt={article.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
             </div>
-            <div className="space-y-3 px-2">
+            <div className="space-y-2 md:space-y-3 px-2">
               <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">{article.date}</span>
-              <h3 className="text-2xl font-semibold tracking-tight leading-tight text-black group-hover:text-zinc-500 transition-colors">{article.title}</h3>
+              <h3 className="text-xl md:text-2xl font-semibold tracking-tight leading-tight text-black group-hover:text-zinc-500 transition-colors">{article.title}</h3>
             </div>
           </div>
         ))}
@@ -184,23 +184,23 @@ export function SecurityProtocol() {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="bg-black text-white py-32 rounded-[4rem] mx-6 my-10 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-10 grid grid-cols-1 lg:grid-cols-2 gap-24">
-        <div className="space-y-8">
-          <h2 className="text-5xl font-semibold tracking-tight">{LANDING_DATA.security.title}</h2>
-          <p className="text-zinc-500 text-lg font-light leading-relaxed max-w-md">
+    <section ref={sectionRef} className="bg-black text-white py-16 md:py-32 rounded-[2.5rem] md:rounded-[4rem] mx-4 sm:mx-6 my-10 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-24">
+        <div className="space-y-6 md:space-y-8">
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight">{LANDING_DATA.security.title}</h2>
+          <p className="text-zinc-500 text-base md:text-lg font-light leading-relaxed max-w-md">
             {LANDING_DATA.security.subtitle}
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-12">
+        <div className="grid grid-cols-1 gap-8 md:gap-12">
           {LANDING_DATA.security.features.map((f, i) => (
-            <div key={f.title} className="security-item flex gap-6 items-start group opacity-0">
-              <div className="w-12 h-12 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-500">
+            <div key={f.title} className="security-item flex gap-4 md:gap-6 items-start group opacity-0">
+              <div className="w-12 h-12 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-500 shrink-0">
                 <Shield className="w-5 h-5 text-zinc-500 group-hover:text-black transition-colors" />
               </div>
               <div className="space-y-1">
-                <h3 className="text-xl font-bold tracking-tight">{f.title}</h3>
-                <p className="text-zinc-500 font-light">{f.desc}</p>
+                <h3 className="text-lg md:text-xl font-bold tracking-tight">{f.title}</h3>
+                <p className="text-sm md:text-base text-zinc-500 font-light">{f.desc}</p>
               </div>
             </div>
           ))}
@@ -232,16 +232,16 @@ export function FAQSection() {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="max-w-3xl mx-auto px-10 py-32 space-y-20">
-      <h2 className="text-5xl font-semibold tracking-tight text-center text-black">{LANDING_DATA.faq.title}</h2>
-      <div className="space-y-6">
+    <section ref={sectionRef} className="max-w-3xl mx-auto px-6 md:px-10 py-16 md:py-32 space-y-12 md:space-y-20">
+      <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-center text-black">{LANDING_DATA.faq.title}</h2>
+      <div className="space-y-4 md:space-y-6">
         {LANDING_DATA.faq.items.map((item, i) => (
-          <div key={i} className="faq-item group border-b border-zinc-100 pb-8 cursor-pointer opacity-0 hover:translate-x-2 transition-all duration-300">
-            <div className="flex items-center justify-between gap-8">
-              <h3 className="text-xl font-semibold tracking-tight text-black group-hover:text-zinc-500 transition-colors">{item.q}</h3>
-              <ChevronDown className="w-5 h-5 text-zinc-300 group-hover:text-black transition-all group-hover:rotate-180" />
+          <div key={i} className="faq-item group border-b border-zinc-100 pb-6 md:pb-8 cursor-pointer opacity-0 hover:translate-x-2 transition-all duration-300">
+            <div className="flex items-center justify-between gap-4 md:gap-8">
+              <h3 className="text-lg md:text-xl font-semibold tracking-tight text-black group-hover:text-zinc-500 transition-colors">{item.q}</h3>
+              <ChevronDown className="w-5 h-5 text-zinc-300 group-hover:text-black transition-all group-hover:rotate-180 shrink-0" />
             </div>
-            <p className="mt-4 text-zinc-500 font-light leading-relaxed max-w-2xl overflow-hidden max-h-0 group-hover:max-h-40 transition-all duration-500">
+            <p className="mt-4 text-sm md:text-base text-zinc-500 font-light leading-relaxed max-w-2xl overflow-hidden max-h-0 group-hover:max-h-40 transition-all duration-500">
               {item.a}
             </p>
           </div>
@@ -273,14 +273,14 @@ export function PartnerLogos() {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="py-24 border-b border-zinc-100 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-10">
-        <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.4em] mb-12 block text-center">
+    <section ref={sectionRef} className="py-16 md:py-24 border-b border-zinc-100 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 md:px-10">
+        <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.4em] mb-8 md:mb-12 block text-center">
           Institutional Partners
         </span>
-        <div className="flex flex-wrap items-center justify-center gap-20">
+        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-16 md:gap-20">
           {LANDING_DATA.partners.map((p) => (
-            <span key={p} className="partner-logo text-2xl font-bold tracking-tighter text-zinc-400 hover:text-black hover:scale-105 transition-all duration-300 cursor-pointer opacity-0">
+            <span key={p} className="partner-logo text-xl md:text-2xl font-bold tracking-tighter text-zinc-400 hover:text-black hover:scale-105 transition-all duration-300 cursor-pointer opacity-0">
               {p}
             </span>
           ))}
@@ -312,16 +312,16 @@ export function FinalCTA() {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="max-w-7xl mx-auto px-10 py-40 flex flex-col items-center text-center space-y-10">
-      <div className="cta-content space-y-10 opacity-0">
-        <h2 className="text-7xl font-semibold tracking-tight leading-[0.95] text-black">
+    <section ref={sectionRef} className="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-40 flex flex-col items-center text-center space-y-6 md:space-y-10">
+      <div className="cta-content space-y-6 md:space-y-10 opacity-0">
+        <h2 className="text-4xl sm:text-6xl md:text-7xl font-semibold tracking-tight leading-[0.95] text-black">
           {LANDING_DATA.cta.title}
         </h2>
-        <p className="text-xl text-zinc-500 font-light max-w-xl mx-auto leading-relaxed">
+        <p className="text-base sm:text-xl text-zinc-500 font-light max-w-xl mx-auto leading-relaxed">
           {LANDING_DATA.cta.subtitle}
         </p>
-        <Link href="/sell">
-          <button className="h-16 px-12 bg-black text-white rounded-full text-[13px] font-bold uppercase tracking-[0.2em] hover:bg-zinc-800 transition-all shadow-2xl active:scale-[0.98]">
+        <Link href="/sell" className="inline-block">
+          <button className="h-14 md:h-16 px-8 md:px-12 bg-black text-white rounded-full text-[12px] md:text-[13px] font-bold uppercase tracking-[0.2em] hover:bg-zinc-800 transition-all shadow-2xl active:scale-[0.98]">
             {LANDING_DATA.cta.button}
           </button>
         </Link>

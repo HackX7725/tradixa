@@ -80,29 +80,29 @@ export default function ListingDetailPage() {
     <main ref={containerRef} className="min-h-screen bg-[#FBFBFB] text-zinc-900 selection:bg-black selection:text-white">
       <Navbar />
 
-      <section className="pt-32 pb-24 px-10">
+      <section className="pt-28 md:pt-32 pb-12 md:pb-24 px-6 md:px-10">
         <div className="max-w-7xl mx-auto">
           {/* Breadcrumbs */}
           <button 
             onClick={() => router.back()}
-            className="flex items-center gap-2 text-zinc-400 hover:text-black transition-colors mb-12 listing-animate"
+            className="flex items-center gap-2 text-zinc-400 hover:text-black transition-colors mb-8 md:mb-12 listing-animate"
           >
             <ArrowLeft className="w-4 h-4" />
             <span className="text-[10px] font-black uppercase tracking-widest">Back to Marketplace</span>
           </button>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
             {/* Image Gallery */}
             <div className="lg:col-span-7 space-y-6 listing-animate">
-              <div className="relative aspect-square rounded-[3rem] overflow-hidden bg-white border border-zinc-100 shadow-2xl">
+              <div className="relative aspect-square rounded-3xl md:rounded-[3rem] overflow-hidden bg-white border border-zinc-100 shadow-2xl">
                 <Image 
                   src={listing.image} 
                   alt={listing.title} 
                   fill 
                   className="object-cover" 
                 />
-                <div className="absolute top-8 left-8">
-                  <span className="bg-black text-white px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl">
+                <div className="absolute top-6 left-6 md:top-8 md:left-8">
+                  <span className="bg-black text-white px-4 md:px-6 py-2 md:py-2.5 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-xl">
                     {listing.badge || "Verified Asset"}
                   </span>
                 </div>
@@ -110,29 +110,29 @@ export default function ListingDetailPage() {
               
               {/* Feature Grid for specific categories */}
               {listing.category === "Vehicles" && (
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="bg-white p-8 rounded-[2rem] border border-zinc-100 space-y-2">
+                <div className="grid grid-cols-3 gap-3 md:gap-4">
+                  <div className="bg-white p-4 sm:p-8 rounded-2xl md:rounded-[2rem] border border-zinc-100 space-y-2">
                     <Gauge className="w-5 h-5 text-zinc-400" />
                     <p className="text-[9px] font-black text-zinc-400 uppercase">Mileage</p>
-                    <p className="text-lg font-bold">12,500 Km</p>
+                    <p className="text-sm sm:text-lg font-bold">12,500 Km</p>
                   </div>
-                  <div className="bg-white p-8 rounded-[2rem] border border-zinc-100 space-y-2">
+                  <div className="bg-white p-4 sm:p-8 rounded-2xl md:rounded-[2rem] border border-zinc-100 space-y-2">
                     <Fuel className="w-5 h-5 text-zinc-400" />
                     <p className="text-[9px] font-black text-zinc-400 uppercase">Fuel Type</p>
-                    <p className="text-lg font-bold">Petrol</p>
+                    <p className="text-sm sm:text-lg font-bold">Petrol</p>
                   </div>
-                  <div className="bg-white p-8 rounded-[2rem] border border-zinc-100 space-y-2">
+                  <div className="bg-white p-4 sm:p-8 rounded-2xl md:rounded-[2rem] border border-zinc-100 space-y-2">
                     <Zap className="w-5 h-5 text-zinc-400" />
                     <p className="text-[9px] font-black text-zinc-400 uppercase">Transmission</p>
-                    <p className="text-lg font-bold">Automatic</p>
+                    <p className="text-sm sm:text-lg font-bold">Automatic</p>
                   </div>
                 </div>
               )}
             </div>
 
             {/* Sidebar / Info */}
-            <div className="lg:col-span-5 space-y-10 listing-animate">
-              <div className="space-y-4">
+            <div className="lg:col-span-5 space-y-8 md:space-y-10">
+              <div className="space-y-4 listing-animate">
                 <div className="flex items-center gap-3">
                   <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-400">{listing.category}</span>
                   <div className="w-1 h-1 rounded-full bg-zinc-300" />
@@ -141,7 +141,7 @@ export default function ListingDetailPage() {
                     <span className="text-[9px] font-black uppercase tracking-widest">Audit Passed</span>
                   </div>
                 </div>
-                <h1 className="text-5xl md:text-6xl font-bold tracking-tighter leading-[0.95] text-black">
+                <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tighter leading-[0.95] text-black">
                   {listing.title}
                 </h1>
                 <div className="flex items-center gap-2 text-zinc-400">
@@ -150,31 +150,33 @@ export default function ListingDetailPage() {
                 </div>
               </div>
 
-              <div className="py-10 border-y border-zinc-100 flex items-center justify-between">
+              <div className="py-6 md:py-10 border-y border-zinc-100 flex items-center justify-between gap-4 listing-animate">
                 <div className="space-y-1">
                   <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Fixed Listing Price</p>
-                  <p className="text-5xl font-bold tracking-tight text-black">{listing.price}</p>
+                  <p className="text-3xl sm:text-5xl font-bold tracking-tight text-black">{listing.price}</p>
                 </div>
-                <div className="flex gap-3">
-                   <button className="w-14 h-14 rounded-2xl border border-zinc-200 flex items-center justify-center hover:bg-white hover:border-black transition-all">
+                <div className="flex gap-2.5 shrink-0">
+                   <button className="w-12 h-12 md:w-14 md:h-14 rounded-2xl border border-zinc-200 flex items-center justify-center hover:bg-white hover:border-black transition-all">
                       <Heart className="w-5 h-5 text-zinc-400 hover:text-red-500 transition-colors" />
                    </button>
-                   <button className="w-14 h-14 rounded-2xl border border-zinc-200 flex items-center justify-center hover:bg-white hover:border-black transition-all">
+                   <button className="w-12 h-12 md:w-14 md:h-14 rounded-2xl border border-zinc-200 flex items-center justify-center hover:bg-white hover:border-black transition-all">
                       <Share2 className="w-5 h-5 text-zinc-400" />
                    </button>
                 </div>
               </div>
 
-              <div className="space-y-6">
-                <div className="flex items-center gap-4 p-6 bg-white rounded-[1.5rem] border border-zinc-100">
-                   <div className="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center font-bold text-black uppercase">
-                      {listing.sellerName?.charAt(0) || "U"}
+              <div className="space-y-6 listing-animate">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 sm:p-6 bg-white rounded-2xl md:rounded-[1.5rem] border border-zinc-100">
+                   <div className="flex items-center gap-4 flex-1">
+                     <div className="w-12 h-12 rounded-full bg-zinc-100 border border-zinc-200 flex items-center justify-center font-bold text-black uppercase shrink-0">
+                        {listing.sellerName?.charAt(0) || "U"}
+                     </div>
+                     <div className="flex-1">
+                        <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Institutional Seller</p>
+                        <p className="text-sm font-bold text-black">{listing.sellerName || "Anonymous User"}</p>
+                     </div>
                    </div>
-                   <div className="flex-1">
-                      <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Institutional Seller</p>
-                      <p className="text-sm font-bold text-black">{listing.sellerName || "Anonymous User"}</p>
-                   </div>
-                   <div className="flex items-center gap-1.5 text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">
+                   <div className="flex items-center gap-1.5 text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full w-fit">
                       <CheckCircle2 className="w-3 h-3" />
                       <span className="text-[8px] font-black uppercase tracking-widest">Identity Verified</span>
                    </div>
@@ -198,11 +200,11 @@ export default function ListingDetailPage() {
                     <Trash2 className="w-4.5 h-4.5" /> Delete Listing
                   </button>
                 ) : (
-                  <div className="grid grid-cols-2 gap-4">
-                    <button className="h-16 bg-black text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-zinc-800 transition-all flex items-center justify-center gap-3 shadow-xl">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <button className="h-14 md:h-16 bg-black text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-zinc-800 transition-all flex items-center justify-center gap-3 shadow-xl">
                       <Phone className="w-4 h-4" /> Reveal Contact
                     </button>
-                    <button className="h-16 bg-white text-black border border-zinc-200 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:border-black transition-all flex items-center justify-center gap-3">
+                    <button className="h-14 md:h-16 bg-white text-black border border-zinc-200 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:border-black transition-all flex items-center justify-center gap-3">
                       <Mail className="w-4 h-4" /> Message Desk
                     </button>
                   </div>

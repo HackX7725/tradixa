@@ -54,21 +54,21 @@ export default function LandingPage() {
         <Hero />
         
         <div className="relative z-20">
-          <section className="py-10 px-10">
+          <section className="py-6 md:py-10 px-4 md:px-10">
             <div className="max-w-7xl mx-auto flex justify-center">
-               <div className="inline-flex bg-zinc-100 p-2 rounded-full border border-zinc-200">
+               <div className="inline-flex bg-zinc-100 p-1.5 rounded-full border border-zinc-200">
                   <Link href="/marketplace">
-                    <button className="px-10 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-black transition-all">
+                    <button className="px-4 sm:px-10 py-2 sm:py-3 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-black transition-all">
                       Marketplace
                     </button>
                   </Link>
                   <Link href="/properties">
-                    <button className="px-10 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-black transition-all">
+                    <button className="px-4 sm:px-10 py-2 sm:py-3 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-black transition-all">
                       Properties
                     </button>
                   </Link>
                   <Link href="/vehicles">
-                    <button className="px-10 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-black transition-all">
+                    <button className="px-4 sm:px-10 py-2 sm:py-3 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-black transition-all">
                       Vehicles
                     </button>
                   </Link>

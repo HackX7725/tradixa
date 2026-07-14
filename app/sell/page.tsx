@@ -99,20 +99,20 @@ export default function SellPage() {
     <main ref={containerRef} className="min-h-screen bg-[#F8F9FA] text-zinc-900">
       <Navbar />
       
-      <section className="pt-40 pb-32 px-10">
+      <section className="pt-32 pb-16 px-6 md:px-10">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="flex flex-col gap-4 mb-16 form-animate">
+          <div className="flex flex-col gap-3 mb-10 md:mb-16 form-animate">
             <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-[0.4em]">Post your asset</span>
-            <h1 className="text-6xl font-bold tracking-tighter text-black">Create Listing.</h1>
+            <h1 className="text-4xl sm:text-6xl font-bold tracking-tighter text-black">Create Listing.</h1>
           </div>
 
           {/* Stepper */}
-          <div className="flex items-center gap-4 mb-12 form-animate">
+          <div className="flex items-center gap-4 mb-8 md:mb-12 form-animate">
             {[1, 2, 3].map((s) => (
-              <div key={s} className="flex items-center gap-4 flex-1">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-[11px] font-bold transition-all ${step >= s ? 'bg-black text-white' : 'bg-white text-zinc-300 border border-zinc-200'}`}>
-                  {step > s ? <Check className="w-4 h-4" /> : s}
+              <div key={s} className="flex items-center gap-2 md:gap-4 flex-1">
+                <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-[10px] md:text-[11px] font-bold transition-all shrink-0 ${step >= s ? 'bg-black text-white' : 'bg-white text-zinc-300 border border-zinc-200'}`}>
+                  {step > s ? <Check className="w-3.5 h-3.5" /> : s}
                 </div>
                 {s < 3 && <div className={`h-[1px] flex-1 ${step > s ? 'bg-black' : 'bg-zinc-200'}`} />}
               </div>
@@ -120,12 +120,12 @@ export default function SellPage() {
           </div>
 
           {/* Form Container */}
-          <div className="bg-white rounded-[40px] border border-zinc-100 p-12 shadow-2xl shadow-black/[0.02]">
+          <div className="bg-white rounded-3xl md:rounded-[40px] border border-zinc-100 p-6 md:p-12 shadow-2xl shadow-black/[0.02]">
             {step === 1 && (
-              <div className="space-y-10 form-animate">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                  <div className="space-y-4">
-                    <label className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Asset Title</label>
+              <div className="space-y-6 md:space-y-10 form-animate">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+                  <div className="space-y-3 md:space-y-4">
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Asset Title</label>
                     <Input 
                       value={formData.title}
                       onChange={e => setFormData({...formData, title: e.target.value})}
@@ -133,8 +133,8 @@ export default function SellPage() {
                       className="h-14 rounded-2xl border-zinc-100 focus:border-black transition-all bg-zinc-50/50" 
                     />
                   </div>
-                  <div className="space-y-4">
-                    <label className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Category</label>
+                  <div className="space-y-3 md:space-y-4">
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Category</label>
                     <select 
                       value={formData.category}
                       onChange={e => setFormData({...formData, category: e.target.value})}
@@ -147,23 +147,23 @@ export default function SellPage() {
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <label className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Description</label>
+                <div className="space-y-3 md:space-y-4">
+                  <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Description</label>
                   <textarea 
                     value={formData.description}
                     onChange={e => setFormData({...formData, description: e.target.value})}
                     placeholder="Provide a comprehensive technical description of the asset..."
-                    className="w-full min-h-[200px] rounded-[32px] border border-zinc-100 bg-zinc-50/50 p-8 text-sm font-medium outline-none focus:border-black transition-all resize-none"
+                    className="w-full min-h-[150px] md:min-h-[200px] rounded-2xl md:rounded-[32px] border border-zinc-100 bg-zinc-50/50 p-6 md:p-8 text-sm font-medium outline-none focus:border-black transition-all resize-none"
                   />
                 </div>
               </div>
             )}
 
             {step === 2 && (
-              <div className="space-y-10 form-animate">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                  <div className="space-y-4">
-                    <label className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Price (PKR)</label>
+              <div className="space-y-6 md:space-y-10 form-animate">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+                  <div className="space-y-3 md:space-y-4">
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Price (PKR)</label>
                     <div className="relative">
                       <span className="absolute left-6 top-1/2 -translate-y-1/2 text-sm font-bold text-zinc-400">Rs</span>
                       <Input 
@@ -174,8 +174,8 @@ export default function SellPage() {
                       />
                     </div>
                   </div>
-                  <div className="space-y-4">
-                    <label className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Location</label>
+                  <div className="space-y-3 md:space-y-4">
+                    <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Location</label>
                     <div className="relative">
                       <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
                       <Input 
@@ -190,12 +190,12 @@ export default function SellPage() {
 
                 <div 
                   onClick={() => setFormData({...formData, audit: !formData.audit})}
-                  className={`p-8 rounded-[32px] flex items-center justify-between cursor-pointer transition-all ${
+                  className={`p-6 md:p-8 rounded-2xl md:rounded-[32px] flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between cursor-pointer transition-all ${
                     formData.audit ? "bg-emerald-600 text-white shadow-xl shadow-emerald-500/20" : "bg-zinc-950 text-white"
                   }`}
                 >
-                  <div className="flex items-center gap-6">
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${
+                  <div className="flex items-center gap-4 md:gap-6">
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all shrink-0 ${
                       formData.audit ? "bg-white/20" : "bg-white/10"
                     }`}>
                       <Tag className="w-6 h-6 text-white" />
@@ -207,7 +207,7 @@ export default function SellPage() {
                       </p>
                     </div>
                   </div>
-                  <button className={`w-12 h-6 rounded-full relative transition-all ${formData.audit ? "bg-white" : "bg-zinc-800"}`}>
+                  <button className={`w-12 h-6 rounded-full relative transition-all ${formData.audit ? "bg-white" : "bg-zinc-800"} shrink-0`}>
                     <div className={`absolute top-1 w-4 h-4 rounded-full transition-all ${
                       formData.audit ? "right-1 bg-emerald-600" : "left-1 bg-white"
                     }`} />
@@ -217,11 +217,11 @@ export default function SellPage() {
             )}
 
             {step === 3 && (
-              <div className="space-y-10 form-animate">
+              <div className="space-y-6 md:space-y-10 form-animate">
                 <div className="space-y-4">
-                  <label className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Asset Imagery</label>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <label className="aspect-square rounded-3xl border-2 border-dashed border-zinc-200 flex flex-col items-center justify-center gap-3 hover:border-black hover:bg-zinc-50 transition-all group cursor-pointer">
+                  <label className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-zinc-400 ml-1">Asset Imagery</label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
+                    <label className="aspect-square rounded-2xl md:rounded-3xl border-2 border-dashed border-zinc-200 flex flex-col items-center justify-center gap-3 hover:border-black hover:bg-zinc-50 transition-all group cursor-pointer">
                       <input type="file" multiple accept="image/*" className="hidden" onChange={handleFileChange} />
                       <div className="w-10 h-10 rounded-full bg-zinc-50 group-hover:bg-black group-hover:text-white flex items-center justify-center transition-all">
                         <Plus className="w-5 h-5" />
@@ -229,15 +229,15 @@ export default function SellPage() {
                       <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Add Photo</span>
                     </label>
                     {previews.map((src, i) => (
-                      <div key={i} className="aspect-square rounded-3xl bg-zinc-50 border border-zinc-100 overflow-hidden relative group">
+                      <div key={i} className="aspect-square rounded-2xl md:rounded-3xl bg-zinc-50 border border-zinc-100 overflow-hidden relative group">
                         <Image src={src} alt="Preview" fill className="object-cover" />
                       </div>
                     ))}
                   </div>
-                  <p className="text-[10px] font-medium text-zinc-400 uppercase tracking-widest text-center mt-6">Upload up to 20 high-resolution photos</p>
+                  <p className="text-[10px] font-medium text-zinc-400 uppercase tracking-widest text-center mt-6">Upload up to 20 photos</p>
                 </div>
 
-                <div className="p-10 rounded-[32px] border border-emerald-100 bg-emerald-50/30">
+                <div className="p-6 md:p-10 rounded-2xl md:rounded-[32px] border border-emerald-100 bg-emerald-50/30">
                   <p className="text-sm font-medium text-emerald-900 leading-relaxed text-center">
                     By listing on Tradixa, you agree to our <span className="underline font-bold cursor-pointer">Institutional Trading Protocols</span> and verify that all asset information provided is accurate and audited.
                   </p>
@@ -246,7 +246,7 @@ export default function SellPage() {
             )}
 
             {/* Actions */}
-            <div className="flex items-center justify-between mt-16 pt-10 border-t border-zinc-100">
+            <div className="flex items-center justify-between mt-8 md:mt-16 pt-6 md:pt-10 border-t border-zinc-100">
               <button 
                 onClick={prevStep}
                 className={`text-[11px] font-bold uppercase tracking-[0.2em] transition-all ${step === 1 ? 'opacity-0 pointer-events-none' : 'text-zinc-400 hover:text-black'}`}
@@ -257,7 +257,7 @@ export default function SellPage() {
                 {step < 3 ? (
                   <Button 
                     onClick={nextStep}
-                    className="h-14 px-10 bg-black text-white rounded-full text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-zinc-800 transition-all flex items-center gap-3"
+                    className="h-14 px-8 md:px-10 bg-black text-white rounded-full text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-zinc-800 transition-all flex items-center gap-3"
                   >
                     Next Step <ChevronRight className="w-4 h-4" />
                   </Button>
@@ -265,7 +265,7 @@ export default function SellPage() {
                   <Button 
                     disabled={loading}
                     onClick={handlePublish}
-                    className="h-14 px-10 bg-black text-white rounded-full text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-zinc-800 transition-all flex items-center gap-3 shadow-2xl shadow-black/20"
+                    className="h-14 px-8 md:px-10 bg-black text-white rounded-full text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-zinc-800 transition-all flex items-center gap-3 shadow-2xl shadow-black/20"
                   >
                     {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Publish Listing"}
                   </Button>

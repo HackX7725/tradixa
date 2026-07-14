@@ -51,17 +51,17 @@ export default function MarketplacePage() {
       <Navbar />
       
       {/* Search & Categories Hero */}
-      <section className="pt-40 pb-20 px-10 bg-white border-b border-zinc-100">
-        <div className="max-w-7xl mx-auto space-y-16">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 market-animate">
+      <section className="pt-32 md:pt-40 pb-12 md:pb-20 px-6 md:px-10 bg-white border-b border-zinc-100">
+        <div className="max-w-7xl mx-auto space-y-10 md:space-y-16">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 market-animate">
             <div className="space-y-4">
-              <h1 className="text-6xl md:text-8xl font-bold tracking-tighter leading-none">Pakistan&apos;s Central <br /> Marketplace.</h1>
-              <p className="text-xl text-zinc-500 font-light max-w-lg">
+              <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tighter leading-none">Pakistan&apos;s Central <br /> Marketplace.</h1>
+              <p className="text-base sm:text-xl text-zinc-500 font-light max-w-lg">
                 The elite portal for high-value assets. Trade vehicles, properties, electronics and more with institutional security.
               </p>
             </div>
-            <Link href="/sell">
-              <button className="h-16 px-12 bg-black text-white rounded-2xl text-[13px] font-black uppercase tracking-widest hover:bg-zinc-800 transition-all flex items-center gap-3">
+            <Link href="/sell" className="inline-block">
+              <button className="h-14 md:h-16 px-8 md:px-12 bg-black text-white rounded-2xl text-[12px] md:text-[13px] font-black uppercase tracking-widest hover:bg-zinc-800 transition-all flex items-center gap-3 w-fit">
                 <Plus className="w-5 h-5" /> Start Selling
               </button>
             </Link>
@@ -69,13 +69,13 @@ export default function MarketplacePage() {
 
           <div className="flex flex-col lg:flex-row gap-6 market-animate">
             <div className="relative flex-1 group">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 group-focus-within:text-black transition-colors" />
+              <Search className="absolute left-5 md:left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 group-focus-within:text-black transition-colors" />
               <input 
                 type="text" 
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="Search across all categories (e.g. iPhone 15, DHA Lahore, Land Cruiser)..."
-                className="w-full bg-zinc-50 border border-zinc-200 rounded-[1.5rem] py-6 pl-16 pr-16 text-lg outline-none focus:border-black focus:bg-white transition-all shadow-sm"
+                placeholder="Search across all categories..."
+                className="w-full bg-zinc-50 border border-zinc-200 rounded-2xl md:rounded-[1.5rem] py-4 md:py-6 pl-14 md:pl-16 pr-12 md:pr-16 text-base md:text-lg outline-none focus:border-black focus:bg-white transition-all shadow-sm"
               />
               {searchInput && (
                 <button 
@@ -88,19 +88,19 @@ export default function MarketplacePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 market-animate">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 market-animate">
             <button 
               onClick={() => setActiveCategory("All")}
-              className={`flex flex-col items-center justify-center gap-4 p-8 rounded-[2rem] border transition-all duration-500 ${
+              className={`flex flex-col items-center justify-center gap-3 md:gap-4 p-4 sm:p-8 rounded-2xl md:rounded-[2rem] border transition-all duration-500 ${
                 activeCategory === "All" 
-                  ? "bg-black text-white border-black shadow-2xl shadow-black/20 -translate-y-2" 
+                  ? "bg-black text-white border-black shadow-2xl shadow-black/20 -translate-y-1 md:-translate-y-2" 
                   : "bg-white text-zinc-400 border-zinc-100 hover:border-black hover:text-black"
               }`}
             >
               <div className="w-6 h-6 rounded-lg bg-zinc-100 flex items-center justify-center group-hover:bg-zinc-200">
                 <div className={`w-2 h-2 rounded-full ${activeCategory === "All" ? "bg-black" : "bg-zinc-400"}`} />
               </div>
-              <div className="text-[11px] font-black uppercase tracking-widest">All Assets</div>
+              <div className="text-[9px] sm:text-[11px] font-black uppercase tracking-widest text-center">All Assets</div>
             </button>
             {LANDING_DATA.categories.map((cat) => {
               const Icon = iconMap[cat.id];
@@ -109,14 +109,14 @@ export default function MarketplacePage() {
                 <button 
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.label)}
-                  className={`flex flex-col items-center justify-center gap-4 p-8 rounded-[2rem] border transition-all duration-500 ${
+                  className={`flex flex-col items-center justify-center gap-3 md:gap-4 p-4 sm:p-8 rounded-2xl md:rounded-[2rem] border transition-all duration-500 ${
                     isActive 
-                      ? "bg-black text-white border-black shadow-2xl shadow-black/20 -translate-y-2" 
+                      ? "bg-black text-white border-black shadow-2xl shadow-black/20 -translate-y-1 md:-translate-y-2" 
                       : "bg-white text-zinc-400 border-zinc-100 hover:border-black hover:text-black"
                   }`}
                 >
-                  <Icon className={`w-6 h-6 transition-transform ${isActive ? "scale-110" : ""}`} />
-                  <div className="text-[11px] font-black uppercase tracking-widest">{cat.label}</div>
+                  <Icon className={`w-5 h-5 md:w-6 md:h-6 transition-transform ${isActive ? "scale-110" : ""}`} />
+                  <div className="text-[9px] sm:text-[11px] font-black uppercase tracking-widest text-center">{cat.label}</div>
                 </button>
               );
             })}
@@ -125,7 +125,7 @@ export default function MarketplacePage() {
       </section>
 
       {/* Results Grid */}
-      <section className="py-24 px-10">
+      <section className="py-12 md:py-24 px-6 md:px-10">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-12 market-animate">
             <h2 className="text-2xl font-bold tracking-tight">

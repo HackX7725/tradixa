@@ -31,8 +31,8 @@ export function CategoryBar() {
   }, { scope: barRef });
 
   return (
-    <div ref={barRef} className="w-full border-b border-zinc-100 bg-white sticky top-24 z-40">
-      <div className="max-w-7xl mx-auto px-10 flex items-center justify-center gap-12 h-24 overflow-x-auto no-scrollbar">
+    <div ref={barRef} className="w-full border-b border-zinc-100 bg-white sticky top-20 md:top-24 z-40">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-start md:justify-center gap-8 md:gap-12 h-24 overflow-x-auto no-scrollbar">
         {LANDING_DATA.categories.map((cat) => {
           const Icon = iconMap[cat.id] || PlusCircle;
           return (
@@ -82,9 +82,9 @@ export function ListingGrid() {
   }, [loading, displayListings]);
 
   return (
-    <section ref={gridRef} className="max-w-7xl mx-auto px-10 py-24 perspective-2000">
-      <div className="flex items-center justify-between mb-12">
-        <h2 className="text-3xl font-semibold tracking-tight text-black">Pakistan's Elite Listings</h2>
+    <section ref={gridRef} className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-24 perspective-2000">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 md:mb-12">
+        <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-black">Pakistan's Elite Listings</h2>
         <Link href="/marketplace" className="text-[11px] font-bold text-zinc-400 hover:text-black uppercase tracking-widest transition-all">
           View All Marketplace
         </Link>
