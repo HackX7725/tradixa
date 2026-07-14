@@ -33,13 +33,14 @@ const registerSchema = z.object({
 });
 
 export default function RegisterPage() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [socialLoading, setSocialLoading] = useState<"google" | "facebook" | null>(null);
   const router = useRouter();
   const formRef = useRef<HTMLDivElement>(null);
 
   async function handleSocialSignIn(provider: "google" | "facebook") {
     console.log("Starting social sign-up with:", provider);
-    setIsLoading(true);
+    setSocialLoading(provider);
     try {
       await signIn.social({
         provider: provider,
@@ -47,8 +48,8 @@ export default function RegisterPage() {
       });
     } catch (err: any) {
       console.error("Social Sign-Up Error:", err);
-      toast.error("Handshake failed. Ensure your browser allows cookies.");
-      setIsLoading(false);
+      toast.error("Social authentication failed. Please ensure browser cookies are enabled.");
+      setSocialLoading(null);
     }
   }
 
@@ -67,7 +68,7 @@ export default function RegisterPage() {
 
   async function onSubmit(values: z.infer<typeof registerSchema>) {
     console.log("Attempting registration...", values);
-    setIsLoading(true);
+    setIsSubmitting(true);
     try {
       console.log("Calling signUp.email...");
       const { error } = await signUp.email({
@@ -78,16 +79,16 @@ export default function RegisterPage() {
       });
 
       if (error) {
-        toast.error(error.message || "Registration failed.");
-        setIsLoading(false);
+        toast.error(error.message || "Registration failed. Please verify your details.");
+        setIsSubmitting(false);
         return;
       }
 
-      toast.success("Identity profile created. Redirecting to access...");
+      toast.success("Account created successfully. Redirecting to login...");
       setTimeout(() => router.push("/login"), 1500);
     } catch (err: any) {
-      toast.error("Registration failed. Data rejected.");
-      setIsLoading(false);
+      toast.error("Registration failed. Please check your network connection and try again.");
+      setIsSubmitting(false);
     }
   }
 
@@ -125,9 +126,9 @@ export default function RegisterPage() {
                 <Button
                   type="submit"
                   className="w-full h-14 bg-black text-white hover:bg-zinc-800 transition-all rounded-2xl font-bold text-[14px] uppercase tracking-[0.2em] shadow-xl shadow-black/10 active:scale-[0.98]"
-                  disabled={isLoading}
+                  disabled={isSubmitting || !!socialLoading}
                 >
-                  {isLoading ? (
+                  {isSubmitting ? (
                     <Loader2 className="h-5 w-5 animate-spin" />
                   ) : (
                     <div className="flex items-center justify-center gap-3">
@@ -157,6 +158,8 @@ export default function RegisterPage() {
                 label={p.name} 
                 className="h-14 rounded-2xl border-zinc-200/60 shadow-sm"
                 onClick={() => handleSocialSignIn(p.id as "facebook" | "google")}
+                isLoading={socialLoading === p.id}
+                disabled={isSubmitting || (!!socialLoading && socialLoading !== p.id)}
               />
             ))}
           </div>

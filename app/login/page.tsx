@@ -32,7 +32,8 @@ const loginSchema = z.object({
 });
 
 export default function LoginPage() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [socialLoading, setSocialLoading] = useState<"google" | "facebook" | null>(null);
   const router = useRouter();
   const formRef = useRef<HTMLDivElement>(null);
 
@@ -51,7 +52,7 @@ export default function LoginPage() {
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     console.log("Attempting login...", values);
-    setIsLoading(true);
+    setIsSubmitting(true);
     try {
       console.log("Calling signIn.email...");
       const { error } = await signIn.email({
@@ -60,22 +61,22 @@ export default function LoginPage() {
       });
 
       if (error) {
-        toast.error(error.message || "Invalid credentials.");
-        setIsLoading(false);
+        toast.error(error.message || "Incorrect email or password. Please try again.");
+        setIsSubmitting(false);
         return;
       }
 
-      toast.success("Security clearance granted. Entering workspace...");
+      toast.success("Authentication successful. Redirecting to your dashboard...");
       setTimeout(() => router.push("/dashboard"), 800);
     } catch (err: any) {
-      toast.error("System error. Connection refused.");
-      setIsLoading(false);
+      toast.error("An error occurred during authentication. Please try again.");
+      setIsSubmitting(false);
     }
   }
 
   async function handleSocialSignIn(provider: "google" | "facebook") {
     console.log("Starting social sign-in with:", provider);
-    setIsLoading(true);
+    setSocialLoading(provider);
     try {
       await signIn.social({
         provider: provider,
@@ -83,8 +84,8 @@ export default function LoginPage() {
       });
     } catch (err: any) {
       console.error("Social Sign-In Error:", err);
-      toast.error("Handshake failed. Ensure your browser allows cookies.");
-      setIsLoading(false);
+      toast.error("Social authentication failed. Please ensure browser cookies are enabled.");
+      setSocialLoading(null);
     }
   }
 
@@ -127,9 +128,9 @@ export default function LoginPage() {
                 <Button
                   type="submit"
                   className="w-full h-14 bg-black text-white hover:bg-zinc-800 transition-all rounded-2xl font-bold text-[14px] uppercase tracking-[0.2em] shadow-xl shadow-black/10 active:scale-[0.98]"
-                  disabled={isLoading}
+                  disabled={isSubmitting || !!socialLoading}
                 >
-                  {isLoading ? (
+                  {isSubmitting ? (
                     <Loader2 className="h-5 w-5 animate-spin" />
                   ) : (
                     <div className="flex items-center justify-center gap-3">
@@ -159,6 +160,8 @@ export default function LoginPage() {
                 label={p.name} 
                 className="h-14 rounded-2xl border-zinc-200/60 shadow-sm"
                 onClick={() => handleSocialSignIn(p.id as "facebook" | "google")}
+                isLoading={socialLoading === p.id}
+                disabled={isSubmitting || (!!socialLoading && socialLoading !== p.id)}
               />
             ))}
           </div>
