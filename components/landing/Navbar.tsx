@@ -102,7 +102,7 @@ export function Navbar() {
               </Link>
               <button
                 onClick={handleLogout}
-                className="text-[11px] cursor-pointer font-bold text-zinc-400 hover:text-black uppercase tracking-[0.2em] transition-all flex items-center gap-2"
+                className={`text-[11px] ${isDarkPage ? "hover:text-white" : "hover:bg-zinc-100"} cursor-pointer font-bold ${isDarkPage ? "text-zinc-500 hover:text-white" : "text-zinc-400 hover:text-black"} uppercase tracking-[0.2em] transition-all flex items-center gap-2`}
               >
                 <LogOut className="w-3.5 h-3.5" />
                 Exit
