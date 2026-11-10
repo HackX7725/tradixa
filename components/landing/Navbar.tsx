@@ -95,14 +95,14 @@ export function Navbar() {
           {isPending ? (
             <Loader2 className="w-4 h-4 animate-spin text-zinc-400" />
           ) : session ? (
-            <div className="flex cursor-pointer items-center gap-4">
+            <div className="flex  items-center gap-4">
               <Link href="/dashboard" className="text-[11px] font-bold text-zinc-400 hover:text-black uppercase tracking-[0.2em] transition-all flex items-center gap-2">
                 <LayoutDashboard className="w-3.5 h-3.5" />
                 Dashboard
               </Link>
               <button
                 onClick={handleLogout}
-                className="text-[11px] font-bold text-zinc-400 hover:text-black uppercase tracking-[0.2em] transition-all flex items-center gap-2"
+                className="text-[11px] cursor-pointer font-bold text-zinc-400 hover:text-black uppercase tracking-[0.2em] transition-all flex items-center gap-2"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 Exit
@@ -143,86 +143,88 @@ export function Navbar() {
             <Menu className="w-6 h-6" />
           )}
         </button>
-      </nav>
+      </nav >
 
       {/* Mobile Drawer Overlay */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-white dark:bg-zinc-950 flex flex-col justify-between pt-32 pb-12 px-8 animate-in fade-in slide-in-from-top duration-300">
-          <div className="flex flex-col gap-8">
-            {LANDING_DATA.navigation.links.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-2xl font-semibold uppercase tracking-widest text-zinc-400 hover:text-black dark:hover:text-white transition-colors"
-              >
-                {link.label}
+      {
+        isMobileMenuOpen && (
+          <div className="fixed inset-0 z-40 bg-white dark:bg-zinc-950 flex flex-col justify-between pt-32 pb-12 px-8 animate-in fade-in slide-in-from-top duration-300">
+            <div className="flex flex-col gap-8">
+              {LANDING_DATA.navigation.links.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-2xl font-semibold uppercase tracking-widest text-zinc-400 hover:text-black dark:hover:text-white transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+
+            <div className="flex flex-col gap-6 border-t border-zinc-100 dark:border-zinc-900 pt-8">
+              <Link href="/sell" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button className="w-full h-14 rounded-full text-[12px] font-bold uppercase tracking-widest bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200">
+                  + Sell Asset
+                </Button>
               </Link>
-            ))}
-          </div>
 
-          <div className="flex flex-col gap-6 border-t border-zinc-100 dark:border-zinc-900 pt-8">
-            <Link href="/sell" onClick={() => setIsMobileMenuOpen(false)}>
-              <Button className="w-full h-14 rounded-full text-[12px] font-bold uppercase tracking-widest bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200">
-                + Sell Asset
-              </Button>
-            </Link>
-
-            {isPending ? (
-              <div className="flex justify-center">
-                <Loader2 className="w-6 h-6 animate-spin text-zinc-400" />
-              </div>
-            ) : session ? (
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center gap-4 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50">
-                  <div className="w-10 h-10 rounded-full bg-zinc-100 border border-zinc-200 flex items-center justify-center overflow-hidden">
-                    {session.user.image ? (
-                      <img src={session.user.image} alt={session.user.name} className="w-full h-full object-cover" />
-                    ) : (
-                      <User className="w-5 h-5 text-zinc-400" />
-                    )}
+              {isPending ? (
+                <div className="flex justify-center">
+                  <Loader2 className="w-6 h-6 animate-spin text-zinc-400" />
+                </div>
+              ) : session ? (
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center gap-4 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50">
+                    <div className="w-10 h-10 rounded-full bg-zinc-100 border border-zinc-200 flex items-center justify-center overflow-hidden">
+                      {session.user.image ? (
+                        <img src={session.user.image} alt={session.user.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <User className="w-5 h-5 text-zinc-400" />
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-bold">{session.user.name}</p>
+                      <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Authorized Identity</p>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-bold">{session.user.name}</p>
-                    <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Authorized Identity</p>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="w-full">
+                      <Button variant="outline" className="w-full h-12 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2">
+                        <LayoutDashboard className="w-4 h-4" /> Dashboard
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="outline"
+                      onClick={async () => {
+                        setIsMobileMenuOpen(false);
+                        await handleLogout();
+                      }}
+                      className="w-full h-12 rounded-xl text-[10px] font-bold uppercase tracking-widest text-red-500 hover:text-red-600 border-red-200 hover:bg-red-50 flex items-center justify-center gap-2"
+                    >
+                      <LogOut className="w-4 h-4" /> Sign Out
+                    </Button>
                   </div>
                 </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="w-full">
-                    <Button variant="outline" className="w-full h-12 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2">
-                      <LayoutDashboard className="w-4 h-4" /> Dashboard
+              ) : (
+                <div className="flex flex-col gap-4">
+                  <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button variant="outline" className="w-full h-14 rounded-full text-[12px] font-bold uppercase tracking-widest">
+                      {LANDING_DATA.navigation.auth.login}
                     </Button>
                   </Link>
-                  <Button
-                    variant="outline"
-                    onClick={async () => {
-                      setIsMobileMenuOpen(false);
-                      await handleLogout();
-                    }}
-                    className="w-full h-12 rounded-xl text-[10px] font-bold uppercase tracking-widest text-red-500 hover:text-red-600 border-red-200 hover:bg-red-50 flex items-center justify-center gap-2"
-                  >
-                    <LogOut className="w-4 h-4" /> Sign Out
-                  </Button>
+                  <Link href="/register" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button className="w-full h-14 rounded-full text-[12px] font-bold uppercase tracking-widest bg-black text-white hover:bg-zinc-800">
+                      {LANDING_DATA.navigation.auth.register}
+                    </Button>
+                  </Link>
                 </div>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4">
-                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full h-14 rounded-full text-[12px] font-bold uppercase tracking-widest">
-                    {LANDING_DATA.navigation.auth.login}
-                  </Button>
-                </Link>
-                <Link href="/register" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button className="w-full h-14 rounded-full text-[12px] font-bold uppercase tracking-widest bg-black text-white hover:bg-zinc-800">
-                    {LANDING_DATA.navigation.auth.register}
-                  </Button>
-                </Link>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
     </>
   );
 }
